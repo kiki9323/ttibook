@@ -1,5 +1,5 @@
-import { isBGLight } from '@/utils/utils'
-import style from './index.module.scss'
+import { isBGLight } from '@/utils/utils';
+import style from './index.module.scss';
 
 const typeColors = {
   normal: '#A8A77A',
@@ -22,19 +22,19 @@ const typeColors = {
   fairy: '#D685AD',
   unknown: '#68A090',
   shadow: '#4A3466',
-}
+};
 
 export const PokemonType = ({ type, children }) => {
-  const typeKeys = Object.keys(typeColors)
-  const results = typeKeys.filter(typekey => typekey === type)
+  const typeKeys = Object.keys(typeColors);
+  const results = typeKeys.filter(typekey => typekey === type);
 
   return (
     <div className={style.gacha}>
       <div>
         {results.map((typeKey, idx) => {
-          const backgroundColor = typeColors[typeKey]
-          const isLight = isBGLight(backgroundColor)
-          const color = isLight ? '#000' : '#fff'
+          const backgroundColor = typeColors[typeKey];
+          const isLight = isBGLight(backgroundColor);
+          const color = isLight ? '#000' : '#fff';
 
           return (
             <p
@@ -44,10 +44,10 @@ export const PokemonType = ({ type, children }) => {
             >
               {children}
             </p>
-          )
+          );
         })}
       </div>
       <div></div>
     </div>
-  )
-}
+  );
+};

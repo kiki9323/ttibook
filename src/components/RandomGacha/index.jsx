@@ -1,52 +1,53 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 
-import { API_BASE_URL } from '../../api/apiConfig'
-import { Card } from './Card'
-import { LoadingComponent } from '@components/LoadingComponent'
-import axios from 'axios'
-import style from './index.module.scss'
+import { Card } from './Card';
+import { LoadingComponent } from '@components/LoadingComponent';
+import { getRandomId } from '@/utils/utils';
+import style from './index.module.scss';
+import useFetchPokemon from '../../hooks/useFetchPokemon';
 
 export const RandomGacha = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showCard, setShowCard] = useState(false)
-  const [gachaPokemon, setGachaPokemon] = useState(null)
-  const [notification, setNotification] = useState('')
-  const [timer, setTimer] = useState(null)
+  const randomIdRef = useRef(getRandomId());
+  const [showCard, setShowCard] = useState(false);
+  const [gachaPokemon, setGachaPokemon] = useState(null);
+  const [notification, setNotification] = useState('');
+  const [timer, setTimer] = useState(null);
+  const { isLoading, error, refetch } = useFetchPokemon(randomIdRef.current);
+  const notificationTime = 2000;
 
-  const randomId = Math.floor(Math.random() * 1000) + 1
-
-  const clearTimer = () => {
-    clearTimeout(timer)
-  }
+  useEffect(() => {
+    (async () => {
+      const response = await refetch();
+      setGachaPokemon(response.data);
+    })();
+  }, [randomIdRef.current]);
 
   const handleGacha = async () => {
-    setIsLoading(true)
-    setShowCard(false)
-
-    clearTimeout(timer)
     try {
-      const response = await axios.get(`${API_BASE_URL}/pokemon/${randomId}`)
-      const result = response.data
+      randomIdRef.current = getRandomId();
 
-      setGachaPokemon(result)
-      setIsLoading(false)
+      setShowCard(false);
+      clearTimeout(timer);
 
-      setNotification(`포켓몬 ${result.name} (ID: ${result.id})을(를) 뽑았다!`)
+      if (gachaPokemon) {
+        setGachaPokemon(gachaPokemon);
+        setNotification(
+          `포켓몬 ${gachaPokemon.name} (ID: ${gachaPokemon.id})을(를) 뽑았다!`,
+        );
 
-      setTimer(
-        setTimeout(() => {
-          setNotification('')
-          setShowCard(true)
-        }, 3000),
-      )
+        setTimer(
+          setTimeout(() => {
+            setNotification('');
+            setShowCard(true);
+          }, notificationTime),
+        );
+      }
     } catch (error) {
-      // nothing to do
-    } finally {
-      setIsLoading(false)
+      console.error(error);
     }
-  }
+  };
 
-  if (isLoading) return <LoadingComponent />
+  if (isLoading) return <LoadingComponent />;
 
   return (
     <div className={style.gacha}>
@@ -60,5 +61,5 @@ export const RandomGacha = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};

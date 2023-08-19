@@ -1,16 +1,24 @@
-import './App.css'
+import './App.css';
 
-import { QueryClientProvider } from 'react-query'
-import { RandomGacha } from '@/components/RandomGacha'
-import React from 'react'
-import queryClient from './api/queryClient'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { PokemonDetail } from '@/components/PokemonDetail';
+import { QueryClientProvider } from 'react-query';
+import { RandomGacha } from '@/components/RandomGacha';
+import React from 'react';
+import queryClient from '@/api/queryClient';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RandomGacha />
-    </QueryClientProvider>
-  )
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<RandomGacha />} />
+          <Route path="/pokemon/:id" element={<PokemonDetail />} />
+        </Routes>
+      </QueryClientProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
