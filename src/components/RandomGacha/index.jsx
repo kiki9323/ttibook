@@ -1,43 +1,52 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react'
 
-import { API_BASE_URL } from '../../api/apiConfig';
-import { Card } from './Card';
-import { LoadingComponent } from '@components/LoadingComponent';
-import axios from 'axios';
-import style from './index.module.scss';
+import { API_BASE_URL } from '../../api/apiConfig'
+import { Card } from './Card'
+import { LoadingComponent } from '@components/LoadingComponent'
+import axios from 'axios'
+import style from './index.module.scss'
 
 export const RandomGacha = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [showCard, setShowCard] = useState(false);
-  const [gachaPokemon, setGachaPokemon] = useState(null);
-  const [notification, setNotification] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+  const [showCard, setShowCard] = useState(false)
+  const [gachaPokemon, setGachaPokemon] = useState(null)
+  const [notification, setNotification] = useState('')
+  const [timer, setTimer] = useState(null)
 
-  const randomId = Math.floor(Math.random() * 1000) + 1;
+  const randomId = Math.floor(Math.random() * 1000) + 1
+
+  const clearTimer = () => {
+    clearTimeout(timer)
+  }
 
   const handleGacha = async () => {
-    setIsLoading(true);
-    setShowCard(false);
+    setIsLoading(true)
+    setShowCard(false)
+
+    clearTimeout(timer)
     try {
-      const response = await axios.get(`${API_BASE_URL}/pokemon/${randomId}`);
-      const result = response.data;
+      const response = await axios.get(`${API_BASE_URL}/pokemon/${randomId}`)
+      const result = response.data
 
-      setGachaPokemon(result);
-      setIsLoading(false);
+      setGachaPokemon(result)
+      setIsLoading(false)
 
-      setNotification(`포켓몬 ${result.name} (ID: ${result.id})을(를) 뽑았다!`);
+      setNotification(`포켓몬 ${result.name} (ID: ${result.id})을(를) 뽑았다!`)
 
-      setTimeout(() => {
-        setNotification('');
-        setShowCard(true);
-      }, 3000);
+      setTimer(
+        setTimeout(() => {
+          setNotification('')
+          setShowCard(true)
+        }, 3000),
+      )
     } catch (error) {
       // nothing to do
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
-  if (isLoading) return <LoadingComponent />;
+  if (isLoading) return <LoadingComponent />
 
   return (
     <div className={style.gacha}>
@@ -51,5 +60,5 @@ export const RandomGacha = () => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
