@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
-import { PokemonType } from '@components/PokemonType'
-import React from 'react'
-import style from './index.module.scss'
+import { Link } from 'react-router-dom';
+import { PokemonType } from '@components/PokemonType';
+import React from 'react';
+import style from './index.module.scss';
 
 const Front = ({ name, imageSrc, types }) => {
   return (
@@ -15,8 +15,8 @@ const Front = ({ name, imageSrc, types }) => {
         <img src={imageSrc} alt={name} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Back = ({ id, abilities, typeName, height }) => {
   return (
@@ -32,12 +32,12 @@ const Back = ({ id, abilities, typeName, height }) => {
       <Link to={`/pokemon/${id}`}>상세 정보 보기</Link>
       <Card.Watermark />
     </div>
-  )
-}
+  );
+};
 
-const Watermark = ({ children = 'TTIBOOK'.repeat(30) }) => {
-  return <div className={style.watermark}>{children}</div>
-}
+const Watermark = ({ children = 'TTIBOOK '.repeat(30) }) => {
+  return <div className={style.watermark}>{children}</div>;
+};
 
 export const Card = ({ gachaPokemon }) => {
   return (
@@ -54,9 +54,9 @@ export const Card = ({ gachaPokemon }) => {
         height={gachaPokemon.height}
       />
     </div>
-  )
-}
+  );
+};
 
-Card.Front = Front
-Card.Back = Back
-Card.Watermark = Watermark
+Card.Front = Front;
+Card.Back = Back;
+Card.Watermark = Watermark;
