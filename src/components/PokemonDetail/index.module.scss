@@ -1,0 +1,10 @@
+.sprite {
+  &_list {
+    display: flex;
+    font-size: 0;
+  }
+
+  &_item {
+    font-size: 16px;
+  }
+}
