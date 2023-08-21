@@ -6,4 +6,15 @@ export const isBGLight = hexColor => {
   return brightness > 127.5;
 };
 
-export const getRandomId = () => Math.floor(Math.random() * 1000) + 1;
+export const getRandomNumber = length => Math.floor(Math.random() * length) + 1;
+
+export const rearrangeStrings = (str1, str2) => (a, b) => {
+  if (a[0].startsWith(str1) && b[0].startsWith(str2)) {
+    return -1;
+  }
+  if (a[0].startsWith(str2) && b[0].startsWith(str1)) {
+    return 1;
+  }
+  return a[0].localeCompare(b[0]);
+};
+
