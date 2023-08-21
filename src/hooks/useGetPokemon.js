@@ -1,29 +1,30 @@
 import { fetchPokemonById } from '../api/pokemonApi';
 import { useQuery } from 'react-query';
 
-const useGetPokemon = id => {
-  const {
-    data: pokemonData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(`pokemon-${id}`, () => fetchPokemonById(id), {
-    staleTime: 1000 * 60 * 30, // 30분 동안 데이터를 캐싱
-    enabled: !!id, // id가 존재할 경우에만 쿼리 활성화
-  });
+const useGetPokemon = (id, enabled = false) => {
+  const { data, isLoading, isError, error, refetch } = useQuery(
+    `pokemon-${id}`,
+    () => fetchPokemonById(id),
+    {
+      staleTime: 1000 * 60 * 30, // 30분 동안 데이터를 캐싱
+      enabled: !!id, // id가 존재할 경우에만 쿼리 활성화
+    },
+  );
 
   return {
-    data: pokemonData,
+    data,
     isLoading,
     isError,
     error,
+    refetch,
   };
 };
 
 export default useGetPokemon;
 
 /**
- * 캐싱한 데이터를 가져와서 쓰고 싶었는데, isLoading,error 같은 것들은 getQueriesData 혹은 getQueryData을 사용할 경우 쓸 수 없다.
+ * 캐싱한 데이터를 가져와서 쓰고 싶었는데,
+ * isLoading,error 같은 것들은 getQueriesData() 혹은 getQueryData()을 사용할 경우 쓸 수 없다.
  */
 // import queryClient from '../api/queryClient';
 
