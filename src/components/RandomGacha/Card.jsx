@@ -3,12 +3,13 @@ import { PokemonType } from '@components/PokemonType';
 import React from 'react';
 import style from './index.module.scss';
 
-const Front = ({ name, imageSrc, types }) => {
+const Front = ({ id, name, imageSrc, types }) => {
   return (
     <div className={style.card_front}>
       <div className={style.card_img}>
         {types.map(({ type }, i) => (
-          <PokemonType key={i} type={type.name}>
+          <PokemonType key={i} type={type.name} className={style.name_type}>
+            <span className={style.card_id}>#{id}</span>
             {name}
           </PokemonType>
         ))}
@@ -18,18 +19,34 @@ const Front = ({ name, imageSrc, types }) => {
   );
 };
 
-const Back = ({ id, abilities, typeName, height }) => {
+const Back = ({ id, abilities, types, height }) => {
   return (
     <div className={style.card_back}>
-      <ul>
-        <p>능력:</p>
-        {abilities.map(({ ability }, idx) => (
-          <li key={idx}>{ability.name}</li>
+      <dl className={style.card_summary}>
+        <dt>능력</dt>
+        <dd>
+          <ul>
+            {abilities.map(({ ability }, idx) => (
+              <li key={idx}>{ability.name}</li>
+            ))}
+          </ul>
+        </dd>
+        <dt>타입</dt>
+        {types.map(({ type }, i) => (
+          <dd key={i}>
+            <PokemonType key={i} type={type.name}>
+              {type.name}
+            </PokemonType>
+          </dd>
         ))}
-      </ul>
-      <p>타입: {typeName}</p>
-      <p>키: {height}</p>
-      <Link to={`/pokemon/${id}`}>상세 정보 보기</Link>
+        <dt>키</dt>
+        <dd>{height}</dd>
+      </dl>
+      <div className={style.more}>
+        <Link to={`/pokemon/${id}`} className={style.more_btn}>
+          상세 정보 보기
+        </Link>
+      </div>
       <Card.Watermark />
     </div>
   );
@@ -41,19 +58,22 @@ const Watermark = ({ children = 'TTIBOOK '.repeat(30) }) => {
 
 export const Card = ({ gachaPokemon }) => {
   return (
-    <div className={style.card}>
-      <Card.Front
-        name={gachaPokemon.name}
-        imageSrc={gachaPokemon.sprites.front_default}
-        types={gachaPokemon.types}
-      />
-      <Card.Back
-        id={gachaPokemon.id}
-        abilities={gachaPokemon.abilities}
-        typeName={gachaPokemon.types[0]['type'].name}
-        height={gachaPokemon.height}
-      />
-    </div>
+    <>
+      <div className={style.card}>
+        <Card.Front
+          id={gachaPokemon.id}
+          types={gachaPokemon.types}
+          name={gachaPokemon.name}
+          imageSrc={gachaPokemon.sprites.front_default}
+        />
+        <Card.Back
+          id={gachaPokemon.id}
+          types={gachaPokemon.types}
+          abilities={gachaPokemon.abilities}
+          height={gachaPokemon.height}
+        />
+      </div>
+    </>
   );
 };
 

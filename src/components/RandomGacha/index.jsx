@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Card } from './Card';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { getRandomId } from '@/utils/utils';
+import { getRandomNumber } from '@/utils/utils';
 import style from './index.module.scss';
-import useFetchPokemon from '../../hooks/useFetchPokemon';
+import useGetPokemon from '../../hooks/useGetPokemon';
 
 export const RandomGacha = () => {
-  const randomIdRef = useRef(getRandomId());
+  const randomIdRef = useRef(getRandomNumber(1000));
   const [showCard, setShowCard] = useState(false);
   const [gachaPokemon, setGachaPokemon] = useState(null);
   const [notification, setNotification] = useState('');
   const [timer, setTimer] = useState(null);
-  const { isLoading, error, refetch } = useFetchPokemon(randomIdRef.current);
+  const { isLoading, error, refetch } = useGetPokemon(randomIdRef.current);
   const notificationTime = 2000;
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const RandomGacha = () => {
 
   const handleGacha = async () => {
     try {
-      randomIdRef.current = getRandomId();
+      randomIdRef.current = getRandomNumber(1000);
 
       setShowCard(false);
       clearTimeout(timer);
@@ -60,6 +60,10 @@ export const RandomGacha = () => {
           {showCard && <Card gachaPokemon={gachaPokemon} />}
         </>
       )}
+      <div>
+        <button>저장하기</button>
+        <button>공유하기</button>
+      </div>
     </div>
   );
 };
