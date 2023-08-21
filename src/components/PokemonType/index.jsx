@@ -24,30 +24,27 @@ const typeColors = {
   shadow: '#4A3466',
 };
 
-export const PokemonType = ({ type, children }) => {
+export const PokemonType = ({ type, className, children }) => {
   const typeKeys = Object.keys(typeColors);
   const results = typeKeys.filter(typekey => typekey === type);
 
   return (
-    <div className={style.gacha}>
-      <div>
-        {results.map((typeKey, idx) => {
-          const backgroundColor = typeColors[typeKey];
-          const isLight = isBGLight(backgroundColor);
-          const color = isLight ? '#000' : '#fff';
+    <>
+      {results.map((typeKey, idx) => {
+        const backgroundColor = typeColors[typeKey];
+        const isLight = isBGLight(backgroundColor);
+        const color = isLight ? '#000' : '#fff';
 
-          return (
-            <p
-              className={style.name}
-              key={typeKey}
-              style={{ backgroundColor, color }}
-            >
-              {children}
-            </p>
-          );
-        })}
-      </div>
-      <div></div>
-    </div>
+        return (
+          <p
+            key={typeKey}
+            className={`${style.type} ${className}`}
+            style={{ backgroundColor, color }}
+          >
+            {children}
+          </p>
+        );
+      })}
+    </>
   );
 };
