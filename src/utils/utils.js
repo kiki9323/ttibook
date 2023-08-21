@@ -18,3 +18,17 @@ export const rearrangeStrings = (str1, str2) => (a, b) => {
   return a[0].localeCompare(b[0]);
 };
 
+export const groupTextsByLanguage = flavorTextEntries => {
+  const languageMap = {};
+
+  flavorTextEntries.forEach(entry => {
+    const languageName = entry.language.name;
+
+    if (!languageMap[languageName]) {
+      languageMap[languageName] = [];
+    }
+    languageMap[languageName].push(entry.flavor_text);
+  });
+
+  return languageMap;
+};
