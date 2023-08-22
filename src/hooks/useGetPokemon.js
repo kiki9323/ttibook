@@ -11,12 +11,6 @@ const useGetPokemon = id => {
     },
   );
 
-  useEffect(() => {
-    if (id) {
-      refetch();
-    }
-  }, [id, refetch]);
-
   return {
     data,
     isLoading,

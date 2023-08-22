@@ -12,12 +12,20 @@ export const RandomGacha = () => {
   const [showCard, setShowCard] = useState(false);
   const [notification, setNotification] = useState('');
   const [timer, setTimer] = useState(null);
+  const {
+    data: pokemonData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetPokemon(randomId);
   const [gachaPokemon, setGachaPokemon] = useState(null);
   const NOTI_TIME = 2000;
 
   const handleGacha = async () => {
     setRandomId(getRandomNumber(1000));
+  };
 
+  useEffect(() => {
     setShowCard(false);
     clearTimeout(timer);
 
@@ -26,6 +34,7 @@ export const RandomGacha = () => {
       setNotification(
         `포켓몬 ${pokemonData.name} (ID: ${pokemonData.id})을(를) 뽑았다!`,
       );
+
       setTimer(
         setTimeout(() => {
           setNotification('');
@@ -33,14 +42,7 @@ export const RandomGacha = () => {
         }, NOTI_TIME),
       );
     }
-  };
-
-  const {
-    data: pokemonData,
-    isLoading,
-    error,
-    refetch,
-  } = useGetPokemon(randomId);
+  }, [pokemonData]);
 
   if (isLoading) return <LoadingComponent />;
   if (error) return <ErrorComponent />;
