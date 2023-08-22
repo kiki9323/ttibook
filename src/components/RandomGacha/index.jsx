@@ -1,53 +1,49 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Card } from './Card';
+import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { getRandomNumber } from '@/utils/utils';
 import style from './index.module.scss';
 import useGetPokemon from '../../hooks/useGetPokemon';
 
 export const RandomGacha = () => {
-  const randomIdRef = useRef(getRandomNumber(1000));
+  const [randomId, setRandomId] = useState(null);
   const [showCard, setShowCard] = useState(false);
-  const [gachaPokemon, setGachaPokemon] = useState(null);
   const [notification, setNotification] = useState('');
   const [timer, setTimer] = useState(null);
-  const { isLoading, error, refetch } = useGetPokemon(randomIdRef.current);
-  const notificationTime = 2000;
-
-  useEffect(() => {
-    (async () => {
-      const response = await refetch();
-      setGachaPokemon(response.data);
-    })();
-  }, [randomIdRef.current]);
+  const [gachaPokemon, setGachaPokemon] = useState(null);
+  const NOTI_TIME = 2000;
 
   const handleGacha = async () => {
-    try {
-      randomIdRef.current = getRandomNumber(1000);
+    setRandomId(getRandomNumber(1000));
 
-      setShowCard(false);
-      clearTimeout(timer);
+    setShowCard(false);
+    clearTimeout(timer);
 
-      if (gachaPokemon) {
-        setGachaPokemon(gachaPokemon);
-        setNotification(
-          `포켓몬 ${gachaPokemon.name} (ID: ${gachaPokemon.id})을(를) 뽑았다!`,
-        );
-
-        setTimer(
-          setTimeout(() => {
-            setNotification('');
-            setShowCard(true);
-          }, notificationTime),
-        );
-      }
-    } catch (error) {
-      console.error(error);
+    if (pokemonData) {
+      setGachaPokemon(pokemonData);
+      setNotification(
+        `포켓몬 ${pokemonData.name} (ID: ${pokemonData.id})을(를) 뽑았다!`,
+      );
+      setTimer(
+        setTimeout(() => {
+          setNotification('');
+          setShowCard(true);
+        }, NOTI_TIME),
+      );
     }
   };
 
+  const {
+    data: pokemonData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetPokemon(randomId);
+
   if (isLoading) return <LoadingComponent />;
+  if (error) return <ErrorComponent />;
 
   return (
     <div className={style.gacha}>
