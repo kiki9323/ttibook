@@ -16,13 +16,23 @@ export const fetchPokemonById = async id => {
   return response.data;
 };
 
-export const fetchPokemonSpeciesList = async () => {
+export const fetchPokemonSpeciesById = async id => {
+  const response = await axios.get(`${API_BASE_URL}/pokemon-species/${id}`);
+  return response.data;
+};
+
+export const fetchPokemonEvolution = async url => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/pokemon-species`);
-    return response.data;
+    const response = await axios.get(`http://localhost:3000${url}`);
+    const data = response.data;
+    return data;
   } catch (error) {
-    throw new Error(error.message);
+    console.log(error);
+    return null;
   }
+
+  // const response = await axios.get(url);
+  // return response.data;
 };
 
 /**
