@@ -8,12 +8,16 @@ const useGetEvolution = url => {
     data: evolutionData,
     isLoading,
     error,
-  } = useQuery(['evolution'], () => fetchPokemonEvolution(url));
+    refetch,
+  } = useQuery(['evolution', url], () => fetchPokemonEvolution(url), {
+    enabled: !!url,
+  });
 
   return {
     evolutionData,
     isLoading,
     error,
+    refetch,
   };
 };
 

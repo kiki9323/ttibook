@@ -1,0 +1,19 @@
+.evolution {
+  margin-top: 30px;
+
+  &_btn {
+    // svg 처리 (화살표)
+    cursor: pointer;
+  }
+
+  &_modal {
+    display: none;
+
+    &.isShow {
+      display: block;
+      height: 30px;
+      background-color: pink;
+    }
+  }
+
+}
