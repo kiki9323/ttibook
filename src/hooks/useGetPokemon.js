@@ -1,15 +1,21 @@
 import { fetchPokemonById } from '../api/pokemonApi';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-const useGetPokemon = (id, enabled = false) => {
+const useGetPokemon = id => {
   const { data, isLoading, isError, error, refetch } = useQuery(
-    `pokemon-${id}`,
+    ['pokemon', id],
     () => fetchPokemonById(id),
     {
-      staleTime: 1000 * 60 * 30, // 30분 동안 데이터를 캐싱
       enabled: !!id, // id가 존재할 경우에만 쿼리 활성화
     },
   );
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    }
+  }, [id, refetch]);
 
   return {
     data,
