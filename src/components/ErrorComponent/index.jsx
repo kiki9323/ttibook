@@ -1,10 +1,12 @@
 import React from 'react';
 
-export const ErrorComponent = ({ message }) => {
+export const ErrorComponent = ({ errorMessage }) => {
   return (
     <div>
-      <strong>Error: {message}</strong>
-      <p>앗 에러다! 다시 시도해 주세요.</p>
+      <strong>
+        앗 에러다! <br /> 다시 시도해 주세요.
+      </strong>
+      <p>(Error: {errorMessage})</p>
     </div>
   );
 };
