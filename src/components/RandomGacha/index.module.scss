@@ -18,8 +18,10 @@
   left: 50%;
   width: 200px;
   height: 200px;
+  cursor: pointer;
   transform: translate(-50%, -50%);
   perspective: 1000px; /* 원근법 값 설정 */
+
   &::before {
     position: absolute;
     top: 0;
@@ -54,6 +56,11 @@
 
   &_front {
     background: #fff; /* 앞면 스타일 설정 */
+    .liked {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
   }
   
   &_back {
@@ -70,10 +77,20 @@
   }
 
   &:hover &_front {
-    transform: rotateY(180deg); /* 회전 */
+    // transform: rotateY(180deg); /* 회전 */
+    transform: rotateY(30deg); /* 회전 */
   }
   
   &:hover &_back {
+    // transform: rotateY(0); /* 회전 */
+    transform: rotateY(-150deg); /* 회전 */
+  }
+
+  &.isActive &_front {
+    transform: rotateY(180deg); /* 회전 */
+  }
+  
+  &.isActive &_back {
     transform: rotateY(0); /* 회전 */
   }
 
@@ -89,32 +106,47 @@
   }
 
   &_id {
-    padding-right: 5px;
+    padding-inline-end: 5px;
   }
 
   &_summary {
     text-align: initial;
 
-    dt {
-      display: block;
+    &_item {
       margin-top: 10px;
-      font-weight: 600;
+      font-size: 14px;
+
+      .attr_height {
+        display: inline-block;
+      }
 
       &:first-child {
         margin-top: 0;
       }
-    }
 
-    dd {
-      display: inline-block;
-      margin-top: 5px;
-      padding-right: 5px;
-    }
-
-    li {
-      display: inline-flex;
-      padding-right: 10px;
-
+      dt {
+        display: block;
+        padding-inline-end: 10px;
+        border-bottom: 1px solid #ddd;
+        font-weight: 600;
+        font-size: 16px;
+      }
+  
+      dd {
+        display: inline-block;
+        margin-top: 5px;
+        padding-inline-end: 10px;
+      }
+  
+      ul {
+        overflow-y: scroll;
+        max-height: 30px;
+      }
+  
+      li {
+        display: inline-flex;
+        padding-inline-end: 5px;
+      }
     }
   }
 
@@ -161,7 +193,7 @@
   &_btn {
     display: inline-block;
     min-width: 130px;
-    padding: 5px 10px;
+    padding: 6px 15px;
     border-radius: 20px;
     background-color: rgb(162, 162, 162);
     opacity: 1;

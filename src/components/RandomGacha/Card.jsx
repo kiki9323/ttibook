@@ -1,11 +1,13 @@
+import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import { PokemonType } from '@components/PokemonType';
-import React from 'react';
 import style from './index.module.scss';
 
-const Front = ({ id, name, imageSrc, types }) => {
+const Front = ({ id, name, imageSrc, types, isFlip }) => {
+  const isFlipActive = isFlip ? style.isActive : null;
   return (
-    <div className={style.card_front}>
+    <div className={`${style.card_front} ${isFlipActive}`}>
       <div className={style.card_img}>
         {types.map(({ type }, i) => (
           <PokemonType key={i} type={type.name} className={style.name_type}>
@@ -15,32 +17,40 @@ const Front = ({ id, name, imageSrc, types }) => {
         ))}
         <img src={imageSrc} alt={name} />
       </div>
+      <button className={style.liked}>좋아요</button>
     </div>
   );
 };
 
-const Back = ({ id, abilities, types, height }) => {
+const Back = ({ id, abilities, types, height, isFlip }) => {
+  const isFlipActive = isFlip ? style.isActive : null;
   return (
-    <div className={style.card_back}>
+    <div className={`${style.card_back} ${isFlipActive}`}>
       <dl className={style.card_summary}>
-        <dt>능력</dt>
-        <dd>
-          <ul>
-            {abilities.map(({ ability }, idx) => (
-              <li key={idx}>{ability.name}</li>
-            ))}
-          </ul>
-        </dd>
-        <dt>타입</dt>
-        {types.map(({ type }, i) => (
-          <dd key={i}>
-            <PokemonType key={i} type={type.name}>
-              {type.name}
-            </PokemonType>
+        <div className={style.card_summary_item}>
+          <dt>능력</dt>
+          <dd>
+            <ul>
+              {abilities.map(({ ability }, idx) => (
+                <li key={idx}>{ability.name}</li>
+              ))}
+            </ul>
           </dd>
-        ))}
-        <dt>키</dt>
-        <dd>{height}</dd>
+        </div>
+        <div className={style.card_summary_item}>
+          <dt>타입</dt>
+          {types.map(({ type }, i) => (
+            <dd key={i}>
+              <PokemonType key={i} type={type.name}>
+                {type.name}
+              </PokemonType>
+            </dd>
+          ))}
+        </div>
+        <div className={style.card_summary_item}>
+          <dt className={style.attr_height}>키</dt>
+          <dd>{height}</dd>
+        </div>
       </dl>
       <div className={style.more}>
         <Link to={`/pokemon/${id}`} className={style.more_btn}>
@@ -57,20 +67,25 @@ const Watermark = ({ children = 'TTIBOOK '.repeat(30) }) => {
 };
 
 export const Card = ({ gachaPokemon }) => {
+  const [isFlip, setIsFlip] = useState(false);
+  const isFlipActive = isFlip ? style.isActive : null;
+
   return (
     <>
-      <div className={style.card}>
+      <div className={`${style.card} ${isFlipActive}`} onClick={() => setIsFlip(prev => !prev)}>
         <Card.Front
           id={gachaPokemon.id}
           types={gachaPokemon.types}
           name={gachaPokemon.name}
           imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
+          isFlip={isFlip}
         />
         <Card.Back
           id={gachaPokemon.id}
           types={gachaPokemon.types}
           abilities={gachaPokemon.abilities}
           height={gachaPokemon.height}
+          isFlip={isFlip}
         />
       </div>
     </>
