@@ -1,19 +1,62 @@
 .evolution {
+  overflow: hidden;
   margin-top: 30px;
+  border: 2px solid black;
+  border-radius: 10px;
 
   &_btn {
+    display: block;
+    padding: 10px 0;
+    font-size: 24px;
     // svg 처리 (화살표)
     cursor: pointer;
   }
 
   &_modal {
-    display: none;
+    height: 0;
+    max-height: 0;
+    opacity: 0;
+    transition: all .3s ease-in-out;
 
     &.isShow {
-      display: block;
-      height: 30px;
-      background-color: pink;
+      height: 100%;
+      max-height: 300px;
+      opacity: 1;
     }
   }
 
+
+  &_list {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    font-size: 20px;
+  }
+
+  &_item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+
+    + .evolution_item {
+      &::before {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        content: '>';
+      }
+    }
+
+
+    img {
+      min-width: 120px;
+    }
+
+    span {
+      padding: 10px 0;
+    }
+  }
 }
