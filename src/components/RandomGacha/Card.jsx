@@ -64,7 +64,7 @@ export const Card = ({ gachaPokemon }) => {
           id={gachaPokemon.id}
           types={gachaPokemon.types}
           name={gachaPokemon.name}
-          imageSrc={gachaPokemon.sprites.front_default}
+          imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
         />
         <Card.Back
           id={gachaPokemon.id}

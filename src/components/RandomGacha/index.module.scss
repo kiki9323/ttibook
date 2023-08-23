@@ -40,6 +40,7 @@
 
   &_front,
   &_back {
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -78,7 +79,7 @@
 
   &_img {
     width: 100%;
-    padding: 20px;
+    padding: 40px 30px 20px;
 
     .name {
       position: absolute;
