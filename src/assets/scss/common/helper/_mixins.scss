@@ -118,14 +118,6 @@ $overflow: hidden) {
 
 
 @mixin lang($type: 'ko') {
-  @if $type=='ar' {
-    $type: 'ar-AE';
-  }
-  
-  @if $type=='ru' {
-    $type: 'ru-RU';
-  }
-
   html[lang="#{$type}"] {
     @content;
   }
