@@ -1,11 +1,13 @@
 .myPokemon {
   &_list {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    padding: 0 10px;
   }
 
   &_item {
     display: inline-block;
+    position: relative;
     margin: 10px;
     padding: 20px;
     background-color: #e2e2e2;
@@ -17,11 +19,29 @@
       object-fit: contain;
       width: 100%;
     }
-
   }
 
-  &_name {
-    display: block;
+  .myPokemon_name {
     margin-top: 10px;
   }
+
+  .no_list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
+
+
+.img {
+  width: 100%;
+
+  &_box {
+    width: 300px;
+  }
+
+  &_info {
+    flex: 1 0 auto;
+  }
+}
+
