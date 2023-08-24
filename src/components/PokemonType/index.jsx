@@ -24,7 +24,7 @@ const typeColors = {
   shadow: '#4A3466',
 };
 
-export const PokemonType = ({ type, className, children }) => {
+export const PokemonType = ({ type, styles, children }) => {
   const typeKeys = Object.keys(typeColors);
   const results = typeKeys.filter(typekey => typekey === type);
 
@@ -36,11 +36,7 @@ export const PokemonType = ({ type, className, children }) => {
         const color = isLight ? '#000' : '#fff';
 
         return (
-          <p
-            key={typeKey}
-            className={`${style.type} ${className}`}
-            style={{ backgroundColor, color }}
-          >
+          <p key={typeKey} className={`${style.type} ${styles}`} style={{ backgroundColor, color }}>
             {children}
           </p>
         );
