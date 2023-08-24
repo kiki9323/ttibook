@@ -32,3 +32,33 @@ export const groupTextsByLanguage = flavorTextEntries => {
 
   return languageMap;
 };
+
+export const clickMovingScroll = slider => {
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  const targetSlider = slider;
+
+  targetSlider?.addEventListener('mousedown', event => {
+    isDown = true;
+    startX = event.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  targetSlider?.addEventListener('mouseleave', () => {
+    isDown = false;
+  });
+
+  targetSlider?.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  targetSlider?.addEventListener('mousemove', event => {
+    if (!isDown) return;
+    event.preventDefault();
+    const x = event.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // 페이지 이동 속도 조절
+    slider.scrollLeft = scrollLeft - walk;
+  });
+};

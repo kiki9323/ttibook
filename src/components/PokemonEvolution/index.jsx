@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { API_BASE_URL } from '../../api/apiConfig';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import axios from 'axios';
+import { clickMovingScroll } from '../../utils/utils';
 import { fetchPokemonById } from '../../api/pokemonApi';
 import style from './index.module.scss';
 import useGetEvolution from '../../hooks/useGetEvolution';
@@ -26,6 +27,11 @@ export const PokemonEvolution = ({ id }) => {
   const [imageSrc, setIamgesSrc] = useState([]);
   const { speciesData, isLoading: speciesLoading, error: speciesError } = useGetSpecies(id);
   const { evolutionData, isLoading: evolutionLoading, error: evolutionError } = useGetEvolution(evolutionUrl);
+  const sliderRef = useRef();
+
+  useEffect(() => {
+    clickMovingScroll(sliderRef.current);
+  }, []);
 
   useEffect(() => {
     const newUrl = speciesData?.evolution_chain.url.split(`${API_BASE_URL}`)[1];
@@ -77,7 +83,7 @@ export const PokemonEvolution = ({ id }) => {
         진화
       </strong>
       <div className={`${style.evolution_modal} ${modalStyle}`}>
-        <ul className={style.evolution_list}>
+        <ul className={style.evolution_list} ref={sliderRef}>
           {imageSrc.length === 1 ? (
             <span>정보 없음</span>
           ) : (
