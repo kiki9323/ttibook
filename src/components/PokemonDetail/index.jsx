@@ -24,11 +24,7 @@ export const PokemonDetail = () => {
   const { id } = useParams();
   const regex = /_default$/;
   const { pokemonData, speciesData, isLoading, error } = usePokemonAndSpecies(id);
-  const HoverStatus = {
-    NONE: 0,
-    SHAKING: 1,
-    FADING: 2,
-  };
+  const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
   const [randomText, setRandomText] = useState('텍스트 정보가 없습니다');
   const [myPokemon, setMyPokemon] = useState(() => {
@@ -47,13 +43,20 @@ export const PokemonDetail = () => {
       id,
       url: pokemonData.sprites.other['official-artwork'].front_default,
       color: pokemonData.color,
+      types: pokemonData.types,
+      liked: false,
     };
 
-    if (!myPokemon.find(e => e.id === newMyPokemon.id)) {
+    // null 체크
+    myPokemon.filter(item => item !== null);
+
+    // 중복
+    if (!myPokemon.find(e => e && e.id === newMyPokemon.id)) {
       if (myPokemon.length > 10) {
         alert('10마리 이상 연속해서 포획했습니다. 욕심도 많군요.. 포켓몬 생태계를 파괴하실 작정입니까?');
       }
       setMyPokemon([...myPokemon, newMyPokemon]);
+      alert(`${pokemonData.name}을(를) 잡았다!`);
     } else {
       return alert('이미 잡은 포켓몬 입니다.');
     }
@@ -83,7 +86,6 @@ export const PokemonDetail = () => {
     <div className={style.detail}>
       <nav className={style.detail_nav}>
         <h1>상세 페이지</h1>
-        <button onClick={() => navigate('/myCollection')}>내 포켓몬 북</button>
       </nav>
       <strong className={style.detail_name}>
         {names.filter(entry => entry.language.name === 'ko')[0].name}

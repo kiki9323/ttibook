@@ -22,6 +22,10 @@
     width: 100%;
   }
 
+  h1 {
+    padding: 15px 0;
+  }
+
   &_name {
     display: block;
     width: 100%;
@@ -30,7 +34,8 @@
   }
   
   .layout {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     width: 50%;
     padding: 30px;
     vertical-align: top;
@@ -48,22 +53,20 @@
 
       &.isShaking { 
         img {
-          animation: shaking .15s linear infinite;
+          animation: shaking .1s linear infinite;
         }
       }
 
       &.isFading {
         img {
           opacity: 0;
-          transition: opacity 3s ease-in-out;
+          transition: opacity 2s ease-in-out;
         }
       }
     }
   }
   
   .info {    
-    display: flex;
-    flex-direction: column;
     font-size: 24px;
     text-align: left;
 
@@ -79,9 +82,9 @@
       width: 100%;
       margin-top: auto;
       padding: 30px;
-      border: 2px solid black;
+      border: 2px solid $black;
       border-radius: 10px;
-      background-color: #eee;
+      background-color: $main-light-gray;
       font-size: 18px;
       text-align: left;
       
@@ -91,7 +94,7 @@
       display: inline-block;
       width: 1.5rem;
       margin-right: 10px;
-      border: 2px solid black;
+      border: 2px solid $black;
       border-radius: 50%;
       vertical-align: middle;
       aspect-ratio: 1 / 1;
@@ -103,16 +106,17 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    margin-top: 30px;
+    margin: 30px;
     padding: 30px 40px;
     border-radius: 10px;
-    background-color: #d3d3d3;
+    background-color: $main-light-gray;
   
     button {
       position: relative;
-  
+      font-size: 22px;
+
       &:hover {
-        text-shadow: 2px 2px 10px #000;
+        text-shadow: 2px 2px 10px $black;
   
         &::after {
           display: block;
