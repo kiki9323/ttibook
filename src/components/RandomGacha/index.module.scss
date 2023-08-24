@@ -56,11 +56,6 @@
 
   &_front {
     background: #fff; /* 앞면 스타일 설정 */
-    .liked {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-    }
   }
   
   &_back {
@@ -155,7 +150,7 @@
   }
 }
 
-.name_type {
+.card_name {
   position: absolute;
   top: 8px;
   left: 8px;

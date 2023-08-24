@@ -4,28 +4,25 @@ import { Link } from 'react-router-dom';
 import { PokemonType } from '@components/PokemonType';
 import style from './index.module.scss';
 
-const Front = ({ id, name, imageSrc, types, isFlip }) => {
-  const isFlipActive = isFlip ? style.isActive : null;
+const Front = ({ id, name, imageSrc, types }) => {
   return (
-    <div className={`${style.card_front} ${isFlipActive}`}>
+    <div className={`${style.card_front}`}>
       <div className={style.card_img}>
         {types.map(({ type }, i) => (
-          <PokemonType key={i} type={type.name} className={style.name_type}>
+          <PokemonType key={i} type={type.name} styles={style.card_name}>
             <span className={style.card_id}>#{id}</span>
             {name}
           </PokemonType>
         ))}
         <img src={imageSrc} alt={name} />
       </div>
-      <button className={style.liked}>좋아요</button>
     </div>
   );
 };
 
-const Back = ({ id, abilities, types, height, isFlip }) => {
-  const isFlipActive = isFlip ? style.isActive : null;
+const Back = ({ id, abilities, types, height }) => {
   return (
-    <div className={`${style.card_back} ${isFlipActive}`}>
+    <div className={`${style.card_back}`}>
       <dl className={style.card_summary}>
         <div className={style.card_summary_item}>
           <dt>능력</dt>
@@ -78,14 +75,12 @@ export const Card = ({ gachaPokemon }) => {
           types={gachaPokemon.types}
           name={gachaPokemon.name}
           imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
-          isFlip={isFlip}
         />
         <Card.Back
           id={gachaPokemon.id}
           types={gachaPokemon.types}
           abilities={gachaPokemon.abilities}
           height={gachaPokemon.height}
-          isFlip={isFlip}
         />
       </div>
     </>
