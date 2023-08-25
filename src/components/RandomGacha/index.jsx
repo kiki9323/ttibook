@@ -53,7 +53,22 @@ export const RandomGacha = () => {
         {gachaPokemon && (
           <>
             <div className={style.notification}>{notification}</div>
-            {showCard && <Card gachaPokemon={gachaPokemon} />}
+            {showCard && (
+              <Card>
+                <Card.Front
+                  id={gachaPokemon.id}
+                  types={gachaPokemon.types}
+                  name={gachaPokemon.name}
+                  imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
+                />
+                <Card.Back
+                  id={gachaPokemon.id}
+                  types={gachaPokemon.types}
+                  abilities={gachaPokemon.abilities}
+                  height={gachaPokemon.height}
+                />
+              </Card>
+            )}
           </>
         )}
       </div>

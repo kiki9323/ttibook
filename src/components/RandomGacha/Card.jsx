@@ -63,25 +63,14 @@ const Watermark = ({ children = 'TTIBOOK '.repeat(30) }) => {
   return <div className={style.watermark}>{children}</div>;
 };
 
-export const Card = ({ gachaPokemon }) => {
+export const Card = ({ children }) => {
   const [isFlip, setIsFlip] = useState(false);
   const isFlipActive = isFlip ? style.isActive : null;
 
   return (
     <>
       <div className={`${style.card} ${isFlipActive}`} onClick={() => setIsFlip(prev => !prev)}>
-        <Card.Front
-          id={gachaPokemon.id}
-          types={gachaPokemon.types}
-          name={gachaPokemon.name}
-          imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
-        />
-        <Card.Back
-          id={gachaPokemon.id}
-          types={gachaPokemon.types}
-          abilities={gachaPokemon.abilities}
-          height={gachaPokemon.height}
-        />
+        {children}
       </div>
     </>
   );
