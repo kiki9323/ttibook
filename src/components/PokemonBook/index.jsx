@@ -1,11 +1,11 @@
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { LikedButton } from '../LikedButton';
 import { Modal } from '../Modal';
 import { PokemonType } from '@components/PokemonType';
 import { debounce } from 'lodash';
 import style from './index.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const PokemonBook = () => {
   const navigate = useNavigate();

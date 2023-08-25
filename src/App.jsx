@@ -2,7 +2,7 @@ import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { PokemonBook } from './components/PokemonBook/index';
+import { PokemonBook } from '@/components/PokemonBook';
 import { PokemonDetail } from '@/components/PokemonDetail';
 import { RandomGacha } from '@/components/RandomGacha';
 import React from 'react';
