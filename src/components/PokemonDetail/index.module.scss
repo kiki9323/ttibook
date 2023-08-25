@@ -16,7 +16,6 @@
 
   }
   
-  
   nav,
   h1 {
     width: 100%;
@@ -31,6 +30,10 @@
     width: 100%;
     margin-top: 30px;
     font-size: 32px;
+  }
+
+  &_id {
+    color: $main-gray;
   }
   
   .layout {
@@ -66,19 +69,31 @@
     }
   }
   
-  .info {    
-    font-size: 24px;
+  .info {
+    display: flex;
+    justify-content: space-between; /* dt, dd 사이에 공간을 동일하게 분배 */
+    font-size: 22px;
+    line-height: 1.4;
     text-align: left;
 
-    &_ability {
-      text-wrap: wrap;
+    dt,
+    dd {
+      display: inline-block;
 
-      span {
-        display: inline-block;
-      }
+    }
+
+    dt {
+      padding-inline-end: 20px;
+      color: $main-gray;
+    }
+
+
+    &_ability {
+      display: inline-block;
+      padding-inline-end: 10px;
     }
   
-    &_text {
+    &_desc {
       width: 100%;
       margin-top: auto;
       padding: 30px;
@@ -99,6 +114,7 @@
       vertical-align: middle;
       aspect-ratio: 1 / 1;
     }
+
   }
   
   .interface {

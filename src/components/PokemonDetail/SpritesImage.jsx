@@ -4,7 +4,7 @@ export const SpritesImage = ({ spriteName, imgSrc, hoverStatus }) => {
   const frontRegex = /^(front_)/;
 
   return (
-    <li key={spriteName} className={`${style.sprite_item} ${hoverStatus}`}>
+    <li className={`${style.sprite_item} ${hoverStatus}`}>
       <img src={`${imgSrc}`} alt={spriteName} />
       <p>{frontRegex.test(spriteName) ? '앞' : '뒤'}</p>
     </li>

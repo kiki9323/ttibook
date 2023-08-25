@@ -62,3 +62,8 @@ export const clickMovingScroll = slider => {
     slider.scrollLeft = scrollLeft - walk;
   });
 };
+
+export const findLang = (attr, language) => {
+  const entry = attr.find(entry => entry.language.name === language);
+  return entry ? entry.genus : undefined;
+};
