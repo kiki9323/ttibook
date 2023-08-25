@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Card } from './Card';
 import { ErrorComponent } from '@components/ErrorComponent';
@@ -11,10 +11,10 @@ export const RandomGacha = () => {
   const [randomId, setRandomId] = useState(null);
   const [showCard, setShowCard] = useState(false);
   const [notification, setNotification] = useState('');
-  const [timer, setTimer] = useState(null);
   const { data: pokemonData, isLoading, error, refetch } = useGetPokemon(randomId);
   const [gachaPokemon, setGachaPokemon] = useState(null);
   const NOTI_TIME = 2000;
+  const timerId = useRef();
 
   const handleGacha = async () => {
     setRandomId(getRandomNumber(1000));
@@ -22,19 +22,18 @@ export const RandomGacha = () => {
 
   useEffect(() => {
     setShowCard(false);
-    clearTimeout(timer);
 
     if (pokemonData) {
       setGachaPokemon(pokemonData);
       setNotification(`포켓몬 ${pokemonData.name} (ID: ${pokemonData.id})을(를) 뽑았다!`);
 
-      setTimer(
-        setTimeout(() => {
-          setNotification('');
-          setShowCard(true);
-        }, NOTI_TIME),
-      );
+      timerId.current = setTimeout(() => {
+        setNotification('');
+        setShowCard(true);
+      }, NOTI_TIME);
     }
+
+    return () => clearTimeout(timerId.current);
   }, [pokemonData]);
 
   if (isLoading) return <LoadingComponent />;
