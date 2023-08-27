@@ -5,7 +5,7 @@ import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { getRandomNumber } from '@/utils/utils';
 import style from './index.module.scss';
-import useGetPokemon from '../../hooks/useGetPokemon';
+import useGetPokemon from '@/hooks/useGetPokemon';
 
 export const RandomGacha = () => {
   const [randomId, setRandomId] = useState(null);

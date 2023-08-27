@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { API_BASE_URL } from '../../api/apiConfig';
+import { API_BASE_URL } from '@/api/apiConfig';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
-import axios from 'axios';
-import { clickMovingScroll } from '../../utils/utils';
-import { fetchPokemonById } from '../../api/pokemonApi';
+import { clickMovingScroll } from '@/utils/utils';
+import { fetchPokemonById } from '@/api/pokemonApi';
 import style from './index.module.scss';
-import useGetEvolution from '../../hooks/useGetEvolution';
-import useGetSpecies from '../../hooks/useGetSpecies';
+import useGetEvolution from '@/hooks/useGetEvolution';
+import useGetSpecies from '@/hooks/useGetSpecies';
 
 const reProcessingFetchIds = evolutionResult => {
   const getIdFromURL = url => {

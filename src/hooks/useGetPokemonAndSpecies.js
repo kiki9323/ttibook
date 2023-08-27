@@ -11,7 +11,7 @@ const fetchById = async id => {
   return [pokemonResponse.data, speciesResponse.data];
 };
 
-export const usePokemonAndSpecies = id => {
+const usePokemonAndSpecies = id => {
   const {
     data: [pokemonData, speciesData] = [undefined, undefined],
     isLoading,
@@ -25,3 +25,5 @@ export const usePokemonAndSpecies = id => {
     error,
   };
 };
+
+export default usePokemonAndSpecies;

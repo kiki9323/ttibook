@@ -50,7 +50,7 @@ const Back = ({ id, abilities, types, height }) => {
         </div>
       </dl>
       <div className={style.more}>
-        <Link to={`/pokemon/${id}`} className={style.more_btn}>
+        <Link to={`/gacha-pokemon/${id}`} className={style.more_btn}>
           상세 정보 보기
         </Link>
       </div>

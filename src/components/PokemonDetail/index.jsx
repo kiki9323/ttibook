@@ -6,10 +6,9 @@ import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonAbilites } from './PokemonAbilites';
 import { PokemonEvolution } from '../PokemonEvolution';
-import { SpritesImage } from './SpritesImage';
 import { SpritesList } from './SpritesList';
 import style from './index.module.scss';
-import { usePokemonAndSpecies } from '../../hooks/useGetPokemonAndSpecies';
+import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
 const getInitialMyPokemon = () => {
   try {
