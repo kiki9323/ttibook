@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '../api/apiConfig';
 import axios from 'axios';
-import { fetchPokemonEvolution } from '../api/pokemonApi';
+import { fetchPokemonEvolution } from '../api/proxyApi';
 import { useQuery } from 'react-query';
 
 const useGetEvolution = url => {
