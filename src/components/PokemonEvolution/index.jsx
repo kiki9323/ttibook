@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { API_BASE_URL } from '@/api/apiConfig';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { clickMovingScroll } from '@/utils/utils';
-import { fetchPokemonById } from '@/api/pokemonApi';
 import style from './index.module.scss';
 import useGetEvolution from '@/hooks/useGetEvolution';
 import useGetSpecies from '@/hooks/useGetSpecies';
+import useLoadEvolutionImages from '@/hooks/useLoadEvolutionImages';
 
 const reProcessingFetchIds = evolutionResult => {
   const getIdFromURL = url => {
@@ -23,7 +23,6 @@ export const PokemonEvolution = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [evolutionUrl, setEvolutionUrl] = useState(null);
   const [evolutionResult, setEvolutionResult] = useState([]);
-  const [imageSrc, setIamgesSrc] = useState([]);
   const { speciesData, isLoading: speciesLoading, error: speciesError } = useGetSpecies(id);
   const { evolutionData, isLoading: evolutionLoading, error: evolutionError } = useGetEvolution(evolutionUrl);
   const sliderRef = useRef();
@@ -37,22 +36,8 @@ export const PokemonEvolution = ({ id }) => {
     setEvolutionUrl(newUrl);
   }, [speciesData, evolutionUrl]);
 
-  useEffect(() => {
-    const fetchEvolutionImages = async evolutionResult => {
-      const ids = reProcessingFetchIds(evolutionResult);
-      const data = await Promise.all(
-        ids
-          .map(async i => {
-            const reponse = await fetchPokemonById(i);
-            const { sprites, name } = reponse;
-            return { src: sprites.front_default, name };
-          })
-          .reverse(),
-      );
-      setIamgesSrc(data);
-    };
-    fetchEvolutionImages(evolutionResult);
-  }, [evolutionResult]);
+  const ids = useMemo(() => reProcessingFetchIds(evolutionResult), [evolutionResult]);
+  const { imagesSrc, isLoading: imagesLoading, error: imagesError } = useLoadEvolutionImages(ids);
 
   if (speciesLoading) return <LoadingComponent />;
   if (speciesError) return <ErrorComponent />;
@@ -83,10 +68,10 @@ export const PokemonEvolution = ({ id }) => {
       </strong>
       <div className={`${style.evolution_modal} ${modalStyle}`}>
         <ul className={style.evolution_list} ref={sliderRef}>
-          {imageSrc.length === 1 ? (
+          {imagesSrc.length === 0 ? (
             <span>정보 없음</span>
           ) : (
-            imageSrc.map((item, key) => (
+            imagesSrc.map((item, key) => (
               <li key={key} className={style.evolution_item}>
                 <img src={item.src} />
                 <span>{item.name}</span>
