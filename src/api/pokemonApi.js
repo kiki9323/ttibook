@@ -1,8 +1,24 @@
 import { API_BASE_URL } from './apiConfig';
 import axios from 'axios';
 
+const instance = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    console.error(error);
+    return Promise.reject({
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+  },
+);
+
 export const fetchPokemonList = async (page = 1, pageSize = 10) => {
-  const response = await axios.get(`${API_BASE_URL}/pokemon`, {
+  const response = await instance.get(`/pokemon`, {
     params: {
       offset: (page - 1) * pageSize,
       limit: pageSize,
@@ -12,27 +28,13 @@ export const fetchPokemonList = async (page = 1, pageSize = 10) => {
 };
 
 export const fetchPokemonById = async id => {
-  const response = await axios.get(`${API_BASE_URL}/pokemon/${id}`);
+  const response = await instance.get(`/pokemon/${id}`);
   return response.data;
 };
 
 export const fetchPokemonSpeciesById = async id => {
-  const response = await axios.get(`${API_BASE_URL}/pokemon-species/${id}`);
+  const response = await instance.get(`/pokemon-species/${id}`);
   return response.data;
-};
-
-export const fetchPokemonEvolution = async url => {
-  try {
-    const response = await axios.get(`http://localhost:3000${url}`);
-    const data = response.data;
-    return data;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-
-  // const response = await axios.get(url);
-  // return response.data;
 };
 
 /**
