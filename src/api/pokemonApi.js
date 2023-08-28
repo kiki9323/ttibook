@@ -1,9 +1,4 @@
-import { API_BASE_URL } from './apiConfig';
-import axios from 'axios';
-
-const instance = axios.create({
-  baseURL: API_BASE_URL,
-});
+import { API_BASE_URL, instance } from './axiosConfig';
 
 instance.interceptors.response.use(
   response => response,
