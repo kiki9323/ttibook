@@ -11,7 +11,7 @@ export const RandomGacha = () => {
   const [randomId, setRandomId] = useState(null);
   const [showCard, setShowCard] = useState(false);
   const [notification, setNotification] = useState('');
-  const { data: pokemonData, isLoading, error, refetch } = useGetPokemon(randomId);
+  const { data: pokemonData, isLoading, isError, error, refetch } = useGetPokemon(randomId);
   const [gachaPokemon, setGachaPokemon] = useState(null);
   const NOTI_TIME = 2000;
   const timerId = useRef();
@@ -36,8 +36,8 @@ export const RandomGacha = () => {
     return () => clearTimeout(timerId.current);
   }, [pokemonData]);
 
-  if (isLoading) return <LoadingComponent />;
-  if (error) return <ErrorComponent errorMessage={error.message} />;
+  if (isLoading) return <LoadingComponent loadingMessage={'뽑는 중...'} />;
+  if (isError) return <ErrorComponent errorMessage={error.message} />;
 
   return (
     <div className={style.gacha}>

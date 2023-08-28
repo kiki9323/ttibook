@@ -16,7 +16,7 @@ export const PokemonAbilites = ({ abilities, habitat, capture_rate, genus, color
       </div>
       <div>
         <dt>서식지</dt>
-        <dd>{habitat?.name ?? '어딘가'}</dd>
+        <dd>{habitat?.name ?? '(알 수 없음)'}</dd>
       </div>
       <div>
         <dt>포획률</dt>

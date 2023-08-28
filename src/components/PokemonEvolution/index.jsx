@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { API_BASE_URL } from '@/api/apiConfig';
+import { API_BASE_URL } from '../../api/axiosConfig';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { clickMovingScroll } from '@/utils/utils';
@@ -23,8 +23,13 @@ export const PokemonEvolution = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [evolutionUrl, setEvolutionUrl] = useState(null);
   const [evolutionResult, setEvolutionResult] = useState([]);
-  const { speciesData, isLoading: speciesLoading, error: speciesError } = useGetSpecies(id);
-  const { evolutionData, isLoading: evolutionLoading, error: evolutionError } = useGetEvolution(evolutionUrl);
+  const { speciesData, isLoading: speciesIsLoading, isError: speciesIsError, error: speciesError } = useGetSpecies(id);
+  const {
+    evolutionData,
+    isLoading: evolutionIsLoading,
+    isError: evolutionIsError,
+    error: evolutionError,
+  } = useGetEvolution(evolutionUrl);
   const sliderRef = useRef();
 
   useEffect(() => {
@@ -37,10 +42,15 @@ export const PokemonEvolution = ({ id }) => {
   }, [speciesData, evolutionUrl]);
 
   const ids = useMemo(() => reProcessingFetchIds(evolutionResult), [evolutionResult]);
-  const { imagesSrc, isLoading: imagesLoading, error: imagesError } = useLoadEvolutionImages(ids);
+  const {
+    imagesSrc,
+    isLoading: imagesLoading,
+    isError: imagesIsError,
+    error: imagesError,
+  } = useLoadEvolutionImages(ids);
 
-  if (speciesLoading) return <LoadingComponent />;
-  if (speciesError) return <ErrorComponent />;
+  if (speciesIsLoading) return <LoadingComponent loadingMessage={'진화 사실 불러오는 중...'} />;
+  if (speciesIsError) return <ErrorComponent errorMessage={error.message} />;
 
   const extractData = obj => {
     if (!obj) return;
@@ -68,16 +78,15 @@ export const PokemonEvolution = ({ id }) => {
       </strong>
       <div className={`${style.evolution_modal} ${modalStyle}`}>
         <ul className={style.evolution_list} ref={sliderRef}>
-          {imagesSrc.length === 0 ? (
-            <span>정보 없음</span>
-          ) : (
+          {imagesLoading && <LoadingComponent text={'진화 사슬 불러오는 중'} />}
+          {imagesIsError && <ErrorComponent error={imagesError} />}
+          {imagesSrc &&
             imagesSrc.map((item, key) => (
               <li key={key} className={style.evolution_item}>
                 <img src={item.src} />
                 <span>{item.name}</span>
               </li>
-            ))
-          )}
+            ))}
         </ul>
       </div>
     </div>

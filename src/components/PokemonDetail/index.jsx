@@ -35,7 +35,7 @@ export const PokemonDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { pokemonData, speciesData, isLoading, error } = usePokemonAndSpecies(id);
+  const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(id);
 
   const [myPokemon, setMyPokemon] = useState(getInitialMyPokemon());
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
@@ -82,7 +82,7 @@ export const PokemonDetail = () => {
   };
 
   useEffect(() => {
-    if (!speciesData || isLoading || error) return;
+    if (!speciesData || isLoading || isError) return;
 
     const { flavor_text_entries } = speciesData;
     const filteredKoreanTexts = flavor_text_entries.filter(entry => entry.language.name === 'ko');
@@ -90,8 +90,8 @@ export const PokemonDetail = () => {
     setRandomText(getRandomText(filteredKoreanTexts));
   }, [speciesData, error, isLoading]);
 
-  if (isLoading) return <LoadingComponent />;
-  if (error) return <ErrorComponent errorMessage={error.message} />;
+  if (isLoading) return <LoadingComponent loadingMessage={'진화 사슬 불러오는 중'} />;
+  if (isError) return <ErrorComponent errorMessage={error.message} />;
 
   const handleGoHome = () => navigate('/');
 

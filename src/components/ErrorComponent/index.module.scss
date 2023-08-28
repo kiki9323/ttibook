@@ -1,0 +1,14 @@
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &_title {
+    font-size: 24px;
+  }
+
+  &_text {
+    font-size: 200px;
+  }
+}

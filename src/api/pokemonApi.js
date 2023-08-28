@@ -13,23 +13,38 @@ instance.interceptors.response.use(
 );
 
 export const fetchPokemonList = async (page = 1, pageSize = 10) => {
-  const response = await instance.get(`/pokemon`, {
-    params: {
-      offset: (page - 1) * pageSize,
-      limit: pageSize,
-    },
-  });
-  return response.data;
+  try {
+    const response = await instance.get(`/pokemon`, {
+      params: {
+        offset: (page - 1) * pageSize,
+        limit: pageSize,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const fetchPokemonById = async id => {
-  const response = await instance.get(`/pokemon/${id}`);
-  return response.data;
+  try {
+    const response = await instance.get(`/pokemon/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const fetchPokemonSpeciesById = async id => {
-  const response = await instance.get(`/pokemon-species/${id}`);
-  return response.data;
+  try {
+    const response = await instance.get(`/pokemon-species/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 /**

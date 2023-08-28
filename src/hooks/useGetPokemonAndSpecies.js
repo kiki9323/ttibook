@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../api/apiConfig';
+import { API_BASE_URL } from '../api/axiosConfig';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
@@ -15,6 +15,7 @@ const usePokemonAndSpecies = id => {
   const {
     data: [pokemonData, speciesData] = [undefined, undefined],
     isLoading,
+    isError,
     error,
   } = useQuery(['pokemon_and_species', id], () => fetchById(id));
 
@@ -22,6 +23,7 @@ const usePokemonAndSpecies = id => {
     pokemonData,
     speciesData,
     isLoading,
+    isError,
     error,
   };
 };
