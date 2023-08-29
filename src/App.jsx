@@ -2,8 +2,6 @@ import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-// import { MainComponent } from '@/components/MainComponent';
-// import { MainTest } from '@/components/MainTest';
 import { PokemonBook } from '@/components/PokemonBook';
 import { PokemonDetail } from '@/components/PokemonDetail';
 import { RandomGacha } from '@/components/RandomGacha';
