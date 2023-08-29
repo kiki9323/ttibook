@@ -103,6 +103,7 @@
         "height",
         "min-height",
         "max-height",
+        "aspect-ratio",
         "margin",
         "margin-top",
         "margin-right",
