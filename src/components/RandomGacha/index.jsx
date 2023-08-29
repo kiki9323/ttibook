@@ -45,13 +45,10 @@ export const RandomGacha = () => {
         랜덤 포켓몬 뽑기
       </button>
       <div>
-        <div>
-          <button>저장하기</button>
-          <button>공유하기</button>
-        </div>
         {gachaPokemon && (
           <>
             <div className={style.notification}>{notification}</div>
+            <button>공유하기</button>
             {showCard && (
               <Card>
                 <Card.Front
