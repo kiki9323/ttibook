@@ -1,7 +1,8 @@
 import { findLang, getRandomNumber, rearrangeStrings } from '@/utils/utils';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { CaptureContext } from '../Context/captureContext';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonAbilites } from './PokemonAbilites';
@@ -40,7 +41,7 @@ export const PokemonDetail = () => {
   const [myPokemon, setMyPokemon] = useState(getInitialMyPokemon());
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
   const [randomText, setRandomText] = useState(DEFAULT_TEXT);
-  const [isCaptured, setIsCaptured] = useState(false);
+  const { isCaptured, setIsCaptured } = useContext(CaptureContext);
 
   useEffect(() => {
     localStorage.setItem('myMonster', JSON.stringify(myPokemon));
@@ -90,7 +91,7 @@ export const PokemonDetail = () => {
     setRandomText(getRandomText(filteredKoreanTexts));
   }, [speciesData, error, isLoading]);
 
-  if (isLoading) return <LoadingComponent loadingMessage={'진화 사슬 불러오는 중'} />;
+  if (isLoading) return <LoadingComponent loadingMessage={'상세 페이지로 이동 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
   const handleGoHome = () => navigate('/');
