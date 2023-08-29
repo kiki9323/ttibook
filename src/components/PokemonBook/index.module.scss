@@ -1,19 +1,19 @@
 .myPokemon {
   &_list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     padding: 0 10px;
   }
 
   &_item {
     display: inline-block;
     position: relative;
+    aspect-ratio: 1 / 1;
     margin: 10px;
     padding: 20px;
     background-color: #e2e2e2;
     text-align: center;
     cursor: pointer;
-    aspect-ratio: 1 / 1;
 
     img {
       object-fit: contain;
@@ -25,10 +25,15 @@
     margin-top: 10px;
   }
 
-  .no_list {
+  &_no_list {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
+    padding: 40px 0;
+    color: $main-gray-wm;
+    font-size: 36px;
+    text-align: center;
   }
 }
 
@@ -42,6 +47,68 @@
 
   &_info {
     flex: 1 0 auto;
+  }
+}
+
+
+.form {
+  display: flex;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  min-width: 252px;
+  padding-inline-start: 13px;
+  padding-inline-end: 13px;
+  border-radius: 20px;
+  background-color: $main-light-gray-wm;
+
+  &_label {
+    padding: 0 5px;
+  }
+
+  &_input {
+    flex: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    color: $main-gray-wm;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  &_clear {
+    display: none;
+    padding: 3px;
+
+    &.isActive {
+      display: flex;
+    }
+
+    span {
+      display: block;
+      position: relative;
+      width: 16px;
+      height: 16px;
+
+      &::after,
+      &::before {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background-color: $black-wm;
+        content: '';
+      }
+
+      &::after {
+        transform: translateX(-50%) rotate(45deg);
+      }
+      
+      &::before {
+        transform: translateX(-50%) rotate(-45deg);
+      }
+    }
   }
 }
 
