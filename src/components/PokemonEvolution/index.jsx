@@ -34,7 +34,7 @@ export const PokemonEvolution = ({ id }) => {
 
   useEffect(() => {
     clickMovingScroll(sliderRef.current);
-  }, []);
+  });
 
   useEffect(() => {
     const newUrl = speciesData?.evolution_chain.url.split(`${API_BASE_URL}`)[1];
@@ -49,7 +49,7 @@ export const PokemonEvolution = ({ id }) => {
     error: imagesError,
   } = useLoadEvolutionImages(ids);
 
-  if (speciesIsLoading) return <LoadingComponent loadingMessage={'진화 사실 불러오는 중...'} />;
+  if (speciesIsLoading) return <LoadingComponent loadingMessage={`상세 페이지 로딩 중`} />;
   if (speciesIsError) return <ErrorComponent errorMessage={error.message} />;
 
   const extractData = obj => {
