@@ -7,7 +7,7 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background-color: $white;
+  background-color: $white-wm;
   box-shadow: 0 -5px 10px 1px #ddd;
 
   .inner {
@@ -20,11 +20,30 @@ header {
     padding: 20px;
 
     ul {
+      display: flex;
+      gap: 15px;
     }
 
     li {
       display: inline-block;
+      position: relative;
 
+      &::after {
+        display: block;
+        position: absolute;
+        top: -3px;
+        right: -6px;
+        aspect-ratio: 1/1;
+        padding: 3px;
+        border-radius: 50%;
+        content: '';
+      }
+
+      &.isActive {
+        &::after {
+          background-color: #f00;
+        }
+      }
     }
   }
 }
