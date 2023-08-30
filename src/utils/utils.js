@@ -73,3 +73,7 @@ export const findLang = (attr, language) => {
   const entry = attr.find(entry => entry.language.name === language);
   return entry ? entry.genus : undefined;
 };
+
+export const formatNumber = (num, digit) => {
+  return String(num).padStart(digit, '0');
+};

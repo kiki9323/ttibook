@@ -1,12 +1,24 @@
 #root {
+  display: flex;
   position: relative;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
+  background-color: var(--color-medium-white);
+  color: var(--color-medium-black);
   text-align: center;
 }
 
 .main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
+
+  .inner {
+    padding-top: 30px;
+  }
 }

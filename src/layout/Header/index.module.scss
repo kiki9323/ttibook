@@ -7,8 +7,8 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background-color: $white-wm;
-  box-shadow: 0 -5px 10px 1px #ddd;
+  background-color: var(--color-header);
+  box-shadow: 0 -5px 10px 1px var(--color-box-shadow);
 
   .inner {
     display: flex;
@@ -21,6 +21,7 @@ header {
 
     ul {
       display: flex;
+      align-items: center;
       gap: 15px;
     }
 
@@ -41,7 +42,7 @@ header {
 
       &.isActive {
         &::after {
-          background-color: #f00;
+          background-color: var(--color-red);
         }
       }
     }

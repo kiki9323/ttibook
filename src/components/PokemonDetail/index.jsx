@@ -94,7 +94,7 @@ export const PokemonDetail = () => {
   if (isLoading) return <LoadingComponent loadingMessage={'상세 페이지로 이동 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
-  const handleGoHome = () => navigate('/');
+  const handleGoHome = () => navigate('/random-gacha');
 
   const { capture_rate, habitat, names, genera, color, is_legendary, is_mythical } = speciesData || {};
 

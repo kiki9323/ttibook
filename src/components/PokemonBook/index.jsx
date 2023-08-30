@@ -43,42 +43,56 @@ export const PokemonBook = () => {
     setIsModalOpen(displayedPokemon.find(p => p.id === mon.id));
   };
 
+  const [toggleOption, setToggleOption] = useState(false);
+  const handleToggle = () => {
+    setToggleOption(prev => !prev);
+  };
+
   return (
     <div className={style.myPokemon}>
-      <button onClick={() => navigate('/')}>포켓몬 잡으러 가기</button>
+      <button type="button" onClick={() => navigate('/random-gacha')}>
+        포켓몬 잡으러 가기
+      </button>
       <h1>내 포켓몬 북</h1>
       <div className={style.utils}>
-        <form className={style.form}>
-          <label htmlFor="pokemon-input" className={style.form_label}>
-            <svg width="20" height="20" viewBox="0 0 20 20">
-              <path
-                d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                stroke="currentColor"
-                fill="none"
-                fillRule="evenodd"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
-          </label>
-          <input
-            id="pokemon-input"
-            type="text"
-            placeholder="검색"
-            value={searchQuery}
-            onChange={handleSearch}
-            className={`${style.form_input} ${searchQuery ? style.clear : ''}`}
-          />
-          <button onClick={handleClearQuery} className={`${style.form_clear} ${searchQuery && style.isActive}`}>
-            <span></span>
-          </button>
+        <form>
+          <div className={style.input_wrap}>
+            <label htmlFor="pokemon-input" className={style.input_label}>
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <path
+                  d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                  stroke="currentColor"
+                  fill="none"
+                  fillRule="evenodd"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+            </label>
+            <input
+              id="pokemon-input"
+              type="text"
+              placeholder="검색"
+              value={searchQuery}
+              onChange={handleSearch}
+              className={`${style.input} ${searchQuery ? style.clear : ''}`}
+            />
+            <button onClick={handleClearQuery} className={`${style.input_clear} ${searchQuery && style.isActive}`}>
+              <span></span>
+            </button>
+          </div>
+          <div className={style.option_wrap}>
+            <select>
+              <option value="좋아요 순">좋아요 순</option>
+              <option value="포획 순">포획 순</option>
+              <option value="유형">유형</option>
+              <option value="성별">성별</option>
+            </select>
+          </div>
         </form>
-        <select>
-          <option value="좋아요 순">좋아요 순</option>
-          <option value="포획 순">포획 순</option>
-          <option value="유형">유형</option>
-          <option value="성별">성별</option>
-        </select>
+        <button type="button" onClick={handleToggle} aria-expanded={toggleOption}>
+          상세 검색
+        </button>
       </div>
       {isPending && <span>Spinner~</span>}
       {displayedPokemon && displayedPokemon.length !== 0 ? (
