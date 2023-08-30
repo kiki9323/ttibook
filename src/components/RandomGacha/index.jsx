@@ -41,7 +41,7 @@ export const RandomGacha = () => {
 
   return (
     <div className={style.gacha}>
-      <button onClick={handleGacha} className={style.gacha_btn}>
+      <button type="button" onClick={handleGacha} className={style.gacha_btn}>
         랜덤 포켓몬 뽑기
       </button>
       <div>
