@@ -1,4 +1,4 @@
-import { API_BASE_URL, instance } from './axiosConfig';
+import { instance } from './axiosConfig';
 
 instance.interceptors.response.use(
   response => response,

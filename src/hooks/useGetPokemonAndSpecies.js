@@ -1,11 +1,11 @@
-import { API_BASE_URL } from '../api/axiosConfig';
-import axios from 'axios';
+import { API_BASE_URL, instance } from '../api/axiosConfig';
+
 import { useQuery } from 'react-query';
 
 const fetchById = async id => {
   const [pokemonResponse, speciesResponse] = await Promise.all([
-    axios.get(`${API_BASE_URL}/pokemon/${id}`),
-    axios.get(`${API_BASE_URL}/pokemon-species/${id}`),
+    instance.get(`/pokemon/${id}`),
+    instance.get(`/pokemon-species/${id}`),
   ]);
 
   return [pokemonResponse.data, speciesResponse.data];
@@ -17,7 +17,7 @@ const usePokemonAndSpecies = id => {
     isLoading,
     isError,
     error,
-  } = useQuery(['pokemon_and_species', id], () => fetchById(id));
+  } = useQuery(['pokemon_and_species', id], async () => fetchById(id));
 
   return {
     pokemonData,
