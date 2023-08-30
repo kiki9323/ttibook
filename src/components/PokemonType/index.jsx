@@ -1,3 +1,4 @@
+import React from 'react';
 import { isBGLight } from '@/utils/utils';
 import style from './index.module.scss';
 
@@ -24,7 +25,7 @@ const typeColors = {
   shadow: '#4A3466',
 };
 
-export const PokemonType = ({ type, styles, children }) => {
+export const PokemonType = React.memo(({ type, styles, children }) => {
   const typeKeys = Object.keys(typeColors);
   const results = typeKeys.filter(typekey => typekey === type);
 
@@ -43,4 +44,4 @@ export const PokemonType = ({ type, styles, children }) => {
       })}
     </>
   );
-};
+});

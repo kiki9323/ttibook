@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import style from './index.module.scss';
 
-export const LikedButton = ({ targetId, myPokemon }) => {
+export const LikedButton = React.memo(({ targetId, myPokemon }) => {
   const LOCAL_KEY_MYMONSTER = 'myMonster';
   const localData = localStorage.getItem(LOCAL_KEY_MYMONSTER);
   const parsedData = JSON.parse(localData) || [];
@@ -26,8 +26,8 @@ export const LikedButton = ({ targetId, myPokemon }) => {
   };
 
   return (
-    <button className={`${style.liked} ${isLiked ? style.isClicked : ''}`} onClick={handleLiked}>
+    <button type="button" className={`${style.liked} ${isLiked ? style.isClicked : ''}`} onClick={handleLiked}>
       {isLiked ? '❤️' : '🤍'}
     </button>
   );
-};
+});
