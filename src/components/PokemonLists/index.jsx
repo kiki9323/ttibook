@@ -32,7 +32,7 @@ const fetchPokemonByRange = async (page, pageSize) => {
 };
 
 export const PokemonLists = () => {
-  const pageSize = 1;
+  const pageSize = 20;
   const {
     data: [resultPoke, resultSpecies] = [[], []],
     isLoading,
@@ -105,21 +105,6 @@ export const PokemonLists = () => {
             sprites,
           } = pokemon;
 
-          const statsss = stats.map(stat => {
-            // {hp: 45},{attack: 49},{defense: 49},{special-attack: 65},{special-defense: 65},{speed: 45}
-            return {
-              [stat.stat.name]: stat.base_stat,
-            };
-          });
-
-          const res = statsss.map((stat, index) => {
-            Object.entries(stat).map(([key, value]) => (
-              <p key={`${key}-${index}`}>
-                `${key}: ${value}`
-              </p>
-            ));
-          });
-
           const typesResult = types.map(type => type.type.name); //  ['grass', 'poison']
           const abilityResult = abilities.map(ability => ability.ability.name); //  ['grass', 'poison']
 
@@ -149,13 +134,38 @@ export const PokemonLists = () => {
           const koFlavorText = langFilterAndAccessor(flavor_text_entries, 'ko', 'flavor_text');
           const koGeneraText = langFilterAndAccessor(genera, 'ko', 'genus');
 
+          const statsProcessing = stats.map(stat => {
+            // {hp: 45},{attack: 49},{defense: 49},{special-attack: 65},{special-defense: 65},{speed: 45}
+            // => {hp: 45},{attack: 49},{defense: 49}
+            const list = ['hp', 'attack', 'defense', 'speed'];
+
+            if (!list.includes(stat.stat.name)) return [];
+            return {
+              [stat.stat.name]: stat.base_stat,
+            };
+          });
+
+          const statsResult = statsProcessing.map((stat, index) => {
+            return Object.entries(stat).map(([key, value]) => {
+              return (
+                <p key={`${key}-${index}`}>
+                  {key}: {value}
+                </p>
+              );
+            });
+          });
+
           return (
             <li key={id} className={style.item}>
-              <div className={style.img_box}>
-                <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+              {statsResult}
+              {/* <div className={style.img_wrap}>
+                <div className={style.img_box}>
+                  <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+                </div>
                 <span className={style.id}>#{formatNumber(id, 4)}</span>
               </div>
               <div className={style.attr}>
+                {statsResult}
                 <div className={style.img_sub_box}>
                   <img
                     className={style.img_sub}
@@ -168,17 +178,14 @@ export const PokemonLists = () => {
                     alt={koName}
                   />
                 </div>
-                <>
-                  {res}
-                  {(typesResult, abilityResult)}
-                </>
+                <>{(typesResult, abilityResult)}</>
               </div>
               <div className={style.desc}>
                 <PokemonType type={types[0].type.name}>{koName}</PokemonType>
                 <p>종류: {koGeneraText}</p>
                 {color.name}
                 <span className={style.flavor_text}>{koFlavorText}</span>
-              </div>
+              </div> */}
             </li>
           );
         })}

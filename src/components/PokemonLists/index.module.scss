@@ -23,9 +23,12 @@
   width: 100%;
   height: -webkit-fill-available;
 
+  &_wrap {
+  }
+
   &_box {
+    display: flex;
     position: relative;
-    flex-shrink: 0;
     width: 180px;
     height: 180px;
     padding: 20px;
@@ -52,7 +55,7 @@
 }
 
 .attr {
-  @include ellipsis(2);
+  // @include ellipsis(2);
   flex: 1;
   padding-inline-start: 5px;
   padding-inline-end: 5px;
