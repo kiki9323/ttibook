@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonType } from '@components/PokemonType';
+import { StatsChart } from './StatsChart';
 import axios from 'axios';
 import { formatNumber } from '@/utils/utils';
 import { instance } from '@/api/axiosConfig';
@@ -32,7 +33,7 @@ const fetchPokemonByRange = async (page, pageSize) => {
 };
 
 export const PokemonLists = () => {
-  const pageSize = 20;
+  const pageSize = 50;
   const {
     data: [resultPoke, resultSpecies] = [[], []],
     isLoading,
@@ -137,9 +138,8 @@ export const PokemonLists = () => {
           const statsProcessing = stats.map(stat => {
             // {hp: 45},{attack: 49},{defense: 49},{special-attack: 65},{special-defense: 65},{speed: 45}
             // => {hp: 45},{attack: 49},{defense: 49}
-            const list = ['hp', 'attack', 'defense', 'speed'];
-
-            if (!list.includes(stat.stat.name)) return [];
+            // const list = ['hp', 'attack', 'defense', 'speed'];
+            // if (!list.includes(stat.stat.name)) return [];
             return {
               [stat.stat.name]: stat.base_stat,
             };
@@ -157,15 +157,17 @@ export const PokemonLists = () => {
 
           return (
             <li key={id} className={style.item}>
-              {statsResult}
-              {/* <div className={style.img_wrap}>
+              <div className={style.img_wrap}>
                 <div className={style.img_box}>
                   <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
                 </div>
                 <span className={style.id}>#{formatNumber(id, 4)}</span>
               </div>
               <div className={style.attr}>
-                {statsResult}
+                {/* {statsResult} */}
+                <div style={{ width: '250px', height: '250px', margin: '0 auto' }}>
+                  <StatsChart statData={statsProcessing} color={color.name} name={koName} />
+                </div>
                 <div className={style.img_sub_box}>
                   <img
                     className={style.img_sub}
@@ -183,9 +185,8 @@ export const PokemonLists = () => {
               <div className={style.desc}>
                 <PokemonType type={types[0].type.name}>{koName}</PokemonType>
                 <p>종류: {koGeneraText}</p>
-                {color.name}
                 <span className={style.flavor_text}>{koFlavorText}</span>
-              </div> */}
+              </div>
             </li>
           );
         })}
