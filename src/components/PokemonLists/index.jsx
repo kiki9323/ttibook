@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { ErrorComponent } from '@components/ErrorComponent';
+import { Link } from 'react-router-dom';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonType } from '@components/PokemonType';
 import { StatsChart } from './StatsChart';
@@ -33,9 +34,9 @@ const fetchPokemonByRange = async (page, pageSize) => {
 };
 
 export const PokemonLists = () => {
-  const pageSize = 50;
+  const pageSize = 10;
   const {
-    data: [resultPoke, resultSpecies] = [[], []],
+    data: [resultPoke, resultSpecies] = [undefined, undefined],
     isLoading,
     isError,
     error,
@@ -53,8 +54,8 @@ export const PokemonLists = () => {
 
       try {
         if (isExist) {
-          const pokePromises = resultPoke.map(pokemon => axios.get(pokemon.url));
-          const speciesPromises = resultSpecies.map(pokemon => axios.get(pokemon.url));
+          const pokePromises = resultPoke?.map(pokemon => axios.get(pokemon.url));
+          const speciesPromises = resultSpecies?.map(pokemon => axios.get(pokemon.url));
 
           const pokeResponses = await Promise.all(pokePromises);
           const speciesResponses = await Promise.all(speciesPromises);
@@ -81,7 +82,7 @@ export const PokemonLists = () => {
 
       setAllPokeData(mergedData);
     });
-  }, [isLoading]);
+  }, [isLoading, isError]);
 
   if (isLoading) return <LoadingComponent loadingMessage={'포켓몬 불러오는 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
@@ -157,36 +158,37 @@ export const PokemonLists = () => {
 
           return (
             <li key={id} className={style.item}>
-              <div className={style.img_wrap}>
-                <div className={style.img_box}>
-                  <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+              <Link to={`/pokemon-detail/${id}`}>
+                <div className={style.img_wrap}>
+                  <div className={style.img_box}>
+                    <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+                  </div>
+                  <span className={style.id}>#{formatNumber(id, 4)}</span>
                 </div>
-                <span className={style.id}>#{formatNumber(id, 4)}</span>
-              </div>
-              <div className={style.attr}>
-                {/* {statsResult} */}
-                <div style={{ width: '250px', height: '250px', margin: '0 auto' }}>
-                  <StatsChart statData={statsProcessing} color={color.name} name={koName} />
+                <div className={style.attr}>
+                  <div className={style.stats_chart}>
+                    <StatsChart statData={statsProcessing} color={color.name} name={koName} />
+                  </div>
+                  <div className={style.img_sub_box}>
+                    <img
+                      className={style.img_sub}
+                      src={sprites.versions[`generation-v`][`black-white`].animated.front_default}
+                      alt={koName}
+                    />
+                    <img
+                      className={style.img_sub}
+                      src={sprites.versions[`generation-v`][`black-white`].animated.back_default}
+                      alt={koName}
+                    />
+                  </div>
+                  <>{(typesResult, abilityResult)}</>
                 </div>
-                <div className={style.img_sub_box}>
-                  <img
-                    className={style.img_sub}
-                    src={sprites.versions[`generation-v`][`black-white`].animated.front_default}
-                    alt={koName}
-                  />
-                  <img
-                    className={style.img_sub}
-                    src={sprites.versions[`generation-v`][`black-white`].animated.back_default}
-                    alt={koName}
-                  />
+                <div className={style.desc}>
+                  <PokemonType type={types[0].type.name}>{koName}</PokemonType>
+                  <p>종류: {koGeneraText}</p>
+                  <span className={style.flavor_text}>{koFlavorText}</span>
                 </div>
-                <>{(typesResult, abilityResult)}</>
-              </div>
-              <div className={style.desc}>
-                <PokemonType type={types[0].type.name}>{koName}</PokemonType>
-                <p>종류: {koGeneraText}</p>
-                <span className={style.flavor_text}>{koFlavorText}</span>
-              </div>
+              </Link>
             </li>
           );
         })}
