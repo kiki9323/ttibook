@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { filterByLanguage, langFilterAndAccessor, selectRandomly } from '@/utils/utils';
+import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 
 import { ErrorComponent } from '@components/ErrorComponent';
 import { Link } from 'react-router-dom';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonType } from '@components/PokemonType';
-import { formatNumber } from '@/utils/utils';
 import { instance } from '@/api/axiosConfig';
 import { pokemonTypeTranslationAndColor } from '@/utils/constants';
 import style from './index.module.scss';
 import useGetAllPokemon from '@/hooks/useGetAllPokemon';
 
 export const PokemonLists = () => {
+  const [mergedAllData, setMergedAllData] = useState([]);
   const {
     data: [resultPoke, resultSpecies],
     status,
@@ -19,41 +19,39 @@ export const PokemonLists = () => {
     // hasNextPage,
     // isFetchingNextPage,
   } = useGetAllPokemon(10);
-  const [mergedAllData, setMergedAllData] = useState([]);
+
+  const fetchDataDetails = async () => {
+    const isExist = resultPoke?.length > 0 && resultSpecies?.length > 0;
+
+    let pokeData = [];
+    let speciesData = [];
+
+    try {
+      if (isExist) {
+        const pokePromises = resultPoke?.map(pokemon => instance.get(pokemon.url));
+        const speciesPromises = resultSpecies?.map(pokemon => instance.get(pokemon.url));
+
+        const pokeResponses = await Promise.all(pokePromises);
+        const speciesResponses = await Promise.all(speciesPromises);
+
+        pokeData = pokeResponses.map(response => response.data);
+        speciesData = speciesResponses.map(response => response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to "fetchDataDetails"');
+    }
+
+    return { pokeData, speciesData };
+  };
 
   useEffect(() => {
-    const fetchDataDetails = async () => {
-      const isExist = resultPoke?.length > 0 && resultSpecies?.length > 0;
-
-      let pokeData = [];
-      let speciesData = [];
-
-      try {
-        if (isExist) {
-          const pokePromises = resultPoke?.map(pokemon => instance.get(pokemon.url));
-          const speciesPromises = resultSpecies?.map(pokemon => instance.get(pokemon.url));
-
-          const pokeResponses = await Promise.all(pokePromises);
-          const speciesResponses = await Promise.all(speciesPromises);
-
-          pokeData = pokeResponses.map(response => response.data);
-          speciesData = speciesResponses.map(response => response.data);
-        }
-      } catch (error) {
-        console.log(error);
-        throw new Error('Failed to "fetchDataDetails"');
-      }
-
-      return { pokeData, speciesData };
-    };
-
     fetchDataDetails().then(({ pokeData, speciesData }) => {
-      const mergedData = pokeData.map(poke => {
-        const correspondingSpecies = speciesData.find(species => species.name === poke.name && species.id === poke.id);
-        return { ...poke, ...correspondingSpecies };
-      });
-
-      setMergedAllData(mergedData);
+      setMergedAllData(
+        pokeData.map(poke => {
+          return { ...poke, ...speciesData.find(species => species.name === poke.name && species.id === poke.id) };
+        }),
+      );
     });
   }, [status]);
 
