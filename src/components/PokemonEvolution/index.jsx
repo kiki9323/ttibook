@@ -20,7 +20,6 @@ const reProcessingFetchIds = evolutionResult => {
 };
 
 export const PokemonEvolution = ({ id }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [evolutionUrl, setEvolutionUrl] = useState(null);
   const [evolutionResult, setEvolutionResult] = useState([]);
   const { speciesData, isLoading: speciesIsLoading, isError: speciesIsError, error: speciesError } = useGetSpecies(id);
@@ -69,26 +68,18 @@ export const PokemonEvolution = ({ id }) => {
   };
 
   extractData(evolutionData?.chain); //evolutionData.chain 안에서만 검색
-  const modalStyle = isOpen ? style.isShow : '';
 
   return (
-    <div className={style.evolution}>
-      <strong onClick={() => setIsOpen(prev => !prev)} className={style.evolution_btn}>
-        진화
-      </strong>
-      <div className={`${style.evolution_modal} ${modalStyle}`}>
-        <ul className={style.evolution_list} ref={sliderRef}>
-          {imagesLoading && <LoadingComponent text={'진화 사슬 불러오는 중'} />}
-          {imagesIsError && <ErrorComponent error={imagesError} />}
-          {imagesSrc &&
-            imagesSrc.map((item, key) => (
-              <li key={key} className={style.evolution_item}>
-                <img src={item.src} />
-                <span>{item.name}</span>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
+    <ul className={style.evolution_list} ref={sliderRef}>
+      {imagesLoading && <LoadingComponent text={'진화 사슬 불러오는 중'} />}
+      {imagesIsError && <ErrorComponent error={imagesError} />}
+      {imagesSrc &&
+        imagesSrc.map((item, key) => (
+          <li key={key} className={style.evolution_item}>
+            <img src={item.src} />
+            <span>{item.name}</span>
+          </li>
+        ))}
+    </ul>
   );
 };

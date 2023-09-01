@@ -7,22 +7,18 @@
     position: relative;
     align-items: center;
     justify-content: space-between;
-
-    button {
-      position: absolute;
-      right: 0;
-      flex-shrink: 0;
-    }
-
-  }
-  
-  nav,
-  h1 {
     width: 100%;
+    padding: 0 20px;
   }
 
-  h1 {
-    padding: 15px 0;
+  .link_btn {
+    display: block;
+    padding: 10px;
+  }
+
+  &_title {
+    width: 100%;
+    font-size: 28px;
   }
 
   &_name {
@@ -39,20 +35,39 @@
   .layout {
     display: inline-flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 50%;
+    width: 60%;
     padding: 30px;
     vertical-align: top;
+
+    &:first-of-type {
+      width: 40%;
+    }
+
+    &_inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   
   .sprite {
+    &_list {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      justify-content: space-evenly;
+    }
+
     &_item {
-      display: inline-block;
-      width: 50%;
+      width: 200px;
 
       img {
-        width: 85%;
-        max-width: 200px;
+        width: 75%;
+      }
+
+      p {
+        margin-top: 25px;
+        font-size: 22px;
       }
 
       &.isShaking { 
@@ -72,7 +87,9 @@
   
   .info {
     display: flex;
+    flex-direction: column;
     justify-content: space-between; /* dt, dd 사이에 공간을 동일하게 분배 */
+    gap: 20px;
     font-size: 22px;
     line-height: 1.4;
     text-align: left;
@@ -84,10 +101,14 @@
     }
 
     dt {
-      padding-inline-end: 20px;
+      min-width: 100px;
+      padding-inline-end: 10px;
       color: var(--color-gray);
     }
 
+    &_row {
+      display: flex;
+    }
 
     &_ability {
       display: inline-block;
@@ -96,17 +117,16 @@
   
     &_desc {
       width: 100%;
-      margin-top: auto;
+      margin-top: 25px;
       padding: 30px;
       border: 2px solid var(--color-black);
       border-radius: 10px;
       background-color: var(--color-light-white);
       font-size: 18px;
       text-align: left;
-      
     }
 
-    &_color {
+    &_content {
       display: inline-block;
       width: 1.5rem;
       aspect-ratio: 1 / 1;
@@ -151,6 +171,14 @@
   }
 }
 
+.stats_box {
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 400px;
+}
+
 @keyframes shaking {
   0% { transform: rotate(0deg);
   }
@@ -167,3 +195,4 @@
   100% { transform: rotate(0deg);
   }
 }
+
