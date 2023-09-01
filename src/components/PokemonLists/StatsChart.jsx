@@ -2,6 +2,7 @@ import { Chart as ChartJS, Filler, Legend, LineElement, PointElement, RadialLine
 import React, { useEffect, useState } from 'react';
 
 import { Radar } from 'react-chartjs-2';
+import { pokemonStatsChartColors } from '@/utils/constants';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -10,52 +11,8 @@ export const StatsChart = ({ statData, color, name }) => {
   const [pokedatas, setPokeDatas] = useState([]);
 
   const colorNameToHex = color => {
-    const colors = {
-      black: {
-        backgroundColor: '#0000004b',
-        borderColor: '#000',
-      },
-      white: {
-        backgroundColor: '#ffffffc3',
-        borderColor: '#dbdbdb',
-      },
-      red: {
-        backgroundColor: '#ff000046',
-        borderColor: '#ff0000',
-      },
-      blue: {
-        backgroundColor: '#0062ff51',
-        borderColor: '#0062ff',
-      },
-      yellow: {
-        backgroundColor: '#fbfb799d',
-        borderColor: '#fbe04c',
-      },
-      green: {
-        backgroundColor: '#7fdb7fa4',
-        borderColor: '#4dc489',
-      },
-      purple: {
-        backgroundColor: '#ed7cf3a3',
-        borderColor: '#c36ce9',
-      },
-      pink: {
-        backgroundColor: '#ff83b289',
-        borderColor: '#fa8af4',
-      },
-      brown: {
-        backgroundColor: '#f9a76c80',
-        borderColor: '#cb8a62',
-      },
-      default: {
-        backgroundColor: '#c5ffe746',
-        borderColor: '#a0ffd796',
-      },
-    };
-    return colors[color.toLowerCase()] || colors['default'];
+    return pokemonStatsChartColors[color.toLowerCase()] || pokemonStatsChartColors['default'];
   };
-
-  console.log(color);
 
   useEffect(() => {
     let newPokeLabels = [];
@@ -83,7 +40,7 @@ export const StatsChart = ({ statData, color, name }) => {
         suggestedMax: suggestedMaxDefault,
         pointLabels: {
           font: {
-            size: 14,
+            size: 20,
             family: 'NeoDunggeunmo',
           },
         },
