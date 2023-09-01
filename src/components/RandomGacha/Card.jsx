@@ -8,8 +8,8 @@ const Front = ({ id, name, imageSrc, types }) => {
   return (
     <div className={`${style.card_front}`}>
       <div className={style.card_img}>
-        {types.map(({ type }, i) => (
-          <PokemonType key={i} type={type.name} styles={style.card_name}>
+        {types?.map(({ type }, i) => (
+          <PokemonType key={i} typeName={type.name} styles={style.card_name}>
             <span className={style.card_id}>#{id}</span>
             {name}
           </PokemonType>
@@ -28,7 +28,7 @@ const Back = ({ id, abilities, types, height }) => {
           <dt>능력</dt>
           <dd>
             <ul>
-              {abilities.map(({ ability }, idx) => (
+              {abilities?.map(({ ability }, idx) => (
                 <li key={idx}>{ability.name}</li>
               ))}
             </ul>
@@ -36,9 +36,9 @@ const Back = ({ id, abilities, types, height }) => {
         </div>
         <div className={style.card_summary_item}>
           <dt>타입</dt>
-          {types.map(({ type }, i) => (
+          {types?.map(({ type }, i) => (
             <dd key={i}>
-              <PokemonType key={i} type={type.name}>
+              <PokemonType key={i} typeName={type.name}>
                 {type.name}
               </PokemonType>
             </dd>

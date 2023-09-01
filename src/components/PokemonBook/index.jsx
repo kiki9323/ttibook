@@ -101,7 +101,7 @@ export const PokemonBook = () => {
             return (
               <li key={mon.id} className={style.myPokemon_item} onClick={() => handleModal(mon, mon.id, mon.name)}>
                 <img src={mon.url} alt={mon.name} />
-                <PokemonType key={mon.id} type={mon.types[0].type.name} styles={style.myPokemon_name}>
+                <PokemonType key={mon.id} typeName={mon.types[0].type.name} styles={style.myPokemon_name}>
                   {mon.name}
                 </PokemonType>
                 <LikedButton myPokemon={myPokemon} targetId={mon.id} />
