@@ -16,7 +16,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         includePaths: [path.resolve(__dirname, 'sass')],
-        additionalData: `@import "./src/assets/scss/common/helper/variables"; @import "./src/assets/scss/common/helper/mixins"; @import "./src/assets/scss/common/helper/color";`,
+        additionalData: `@import "./src/assets/scss/common/helper/variables"; @import "./src/assets/scss/common/helper/mixins"; @import "./src/assets/scss/common/helper/color"; @import "./src/assets/scss/common/helper/theme";`,
       },
     },
   },
