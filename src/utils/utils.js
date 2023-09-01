@@ -69,11 +69,31 @@ export const clickMovingScroll = slider => {
   });
 };
 
-export const findLang = (attr, language) => {
+export const findLang = (attr, language, field) => {
   const entry = attr.find(entry => entry.language.name === language);
-  return entry ? entry.genus : undefined;
+  return entry ? entry[field] : undefined; // .genus -> 이거 다시 수정할 필요 있어보임.
 };
 
 export const formatNumber = (num, digit) => {
   return String(num).padStart(digit, '0');
+};
+
+// from PokemonLists
+export const filterByLanguage = (arr, lang) => arr.filter(item => item.language.name === lang);
+
+export const selectRandomly = arr => {
+  if (!arr.length) return null;
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+};
+
+export const langFilter = (arr, lang) => {
+  const filteredArr = filterByLanguage(arr, lang);
+  if (!filteredArr.length) return null;
+  return selectRandomly(filteredArr);
+};
+
+export const langFilterAndAccessor = (arr, lang, fieldName) => {
+  const result = langFilter(arr, lang);
+  return result ? result[fieldName] : null;
 };

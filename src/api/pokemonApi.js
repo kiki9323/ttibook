@@ -12,21 +12,6 @@ instance.interceptors.response.use(
   },
 );
 
-export const fetchPokemonList = async (page = 1, pageSize = 10) => {
-  try {
-    const response = await instance.get(`/pokemon`, {
-      params: {
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
 export const fetchPokemonById = async id => {
   try {
     const response = await instance.get(`/pokemon/${id}`);
@@ -45,6 +30,30 @@ export const fetchPokemonSpeciesById = async id => {
     console.error(error);
     throw error;
   }
+};
+
+export const fetchPokemonByRange = async (page = 1, pageSize = 20) => {
+  const limitParams = {
+    offset: (page - 1) * pageSize,
+    limit: pageSize,
+  };
+
+  try {
+    const [pokeResponse, speciesResponse] = await Promise.all([
+      instance.get(`/pokemon`, { params: limitParams }),
+      instance.get(`/pokemon-species`, { params: limitParams }),
+    ]);
+
+    return [pokeResponse.data.results, speciesResponse.data.results];
+  } catch (error) {
+    console.log(error);
+    throw new Error('Failed to "fetchPokemonByRange"');
+  }
+};
+
+export const fetchPokemonTotalCount = async () => {
+  const response = await instance.get(`/pokemon`);
+  return response.data.count;
 };
 
 /**

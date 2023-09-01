@@ -17,7 +17,9 @@ const usePokemonAndSpecies = id => {
     isLoading,
     isError,
     error,
-  } = useQuery(['pokemon_and_species', id], async () => fetchById(id));
+  } = useQuery(['pokemon_and_species', id], async () => fetchById(id), {
+    refetchOnWindowFocus: false,
+  });
 
   return {
     pokemonData,
