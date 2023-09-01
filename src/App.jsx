@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PokemonLists />} />
           <Route path="/random-gacha" element={<RandomGacha />} />
-          <Route path="/gacha-pokemon/:id" element={<PokemonDetail />} />
+          <Route path="/pokemon-detail/:id" element={<PokemonDetail />} />
           <Route path="/my-collection" element={<PokemonBook />} />
         </Routes>
       </div>
