@@ -14,6 +14,8 @@ import { fetchPokemonTotalCount } from '@/api/pokemonApi';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
+const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
+
 const getInitialMyPokemon = () => {
   try {
     if (typeof window.localStorage === 'undefined') {
@@ -31,31 +33,18 @@ const getInitialMyPokemon = () => {
 };
 
 export const PokemonDetail = () => {
-  const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
-
   const navigate = useNavigate();
   const { id } = useParams();
   const currentId = Number(id);
+
   const [lastId, setLastId] = useState(0);
-  const handleGoHome = () => navigate('/random-gacha');
-
-  useEffect(() => {
-    const getTotal = async () => {
-      const response = await fetchPokemonTotalCount();
-      setLastId(response);
-    };
-    getTotal();
-  }, []);
-
-  const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
-
   const [myPokemon, setMyPokemon] = useState(getInitialMyPokemon());
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
   const { isCaptured, setIsCaptured } = useContext(CaptureContext);
 
-  useEffect(() => {
-    localStorage.setItem('myMonster', JSON.stringify(myPokemon));
-  }, [myPokemon]);
+  const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
+
+  const handleGoHome = () => navigate('/random-gacha');
 
   const handleCapture = () => {
     const MAX_POKEMON = 10;
@@ -83,6 +72,18 @@ export const PokemonDetail = () => {
       return alert('이미 잡은 포켓몬 입니다.');
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem('myMonster', JSON.stringify(myPokemon));
+  }, [myPokemon]);
+
+  useEffect(() => {
+    const getTotal = async () => {
+      const response = await fetchPokemonTotalCount();
+      setLastId(response);
+    };
+    getTotal();
+  }, []);
 
   if (isLoading) return <LoadingComponent loadingMessage={'상세 페이지로 이동 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
