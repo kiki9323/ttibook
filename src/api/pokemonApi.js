@@ -32,9 +32,9 @@ export const fetchPokemonSpeciesById = async id => {
   }
 };
 
-export const fetchPokemonByRange = async (page = 1, pageSize = 20) => {
+export const fetchPokemonByRange = async (pageParam = 1, pageSize = 100) => {
   const limitParams = {
-    offset: (page - 1) * pageSize,
+    offset: (pageParam - 1) * pageSize,
     limit: pageSize,
   };
 
@@ -44,7 +44,10 @@ export const fetchPokemonByRange = async (page = 1, pageSize = 20) => {
       instance.get(`/pokemon-species`, { params: limitParams }),
     ]);
 
-    return [pokeResponse.data.results, speciesResponse.data.results];
+    return {
+      data: [pokeResponse.data.results, speciesResponse.data.results],
+      nextPageNumber: pageParam + 1,
+    };
   } catch (error) {
     console.log(error);
     throw new Error('Failed to "fetchPokemonByRange"');
@@ -54,6 +57,16 @@ export const fetchPokemonByRange = async (page = 1, pageSize = 20) => {
 export const fetchPokemonTotalCount = async () => {
   const response = await instance.get(`/pokemon`);
   return response.data.count;
+};
+
+export const fetchDataFromUrls = async urls => {
+  try {
+    const responses = await Promise.all(urls.map(url => instance.get(url)));
+    return responses.map(response => response.data);
+  } catch (error) {
+    console.error('Failed to fetch data from URLs: ', error);
+    return [];
+  }
 };
 
 /**
