@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useEffect, useState } from 'react';
 

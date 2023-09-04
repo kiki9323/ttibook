@@ -17,3 +17,15 @@ export const instance = axios.create({
     port: import.meta.env.VITE_PROXY_PORT || 3000,
   },
 });
+
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    console.error(error);
+    return Promise.reject({
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+  },
+);

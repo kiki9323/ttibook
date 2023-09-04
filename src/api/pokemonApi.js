@@ -1,17 +1,5 @@
 import { instance } from './axiosConfig';
 
-instance.interceptors.response.use(
-  response => response,
-  error => {
-    console.error(error);
-    return Promise.reject({
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-    });
-  },
-);
-
 export const fetchPokemonById = async id => {
   try {
     const response = await instance.get(`/pokemon/${id}`);
@@ -69,7 +57,18 @@ export const fetchDataFromUrls = async urls => {
   }
 };
 
+export const fetchPokemonEvolution = async url => {
+  try {
+    const response = await instance.get(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 /**
+ *
  * API 호출 함수를 기능별로 분리하여 특정 작업만 수행하고, 서로 다른 엔드포인트에 대한 별도의 호출 함수를 사용한다.
  * => 나중에 추가적인 요청이나 기능별 구현에 대처하기 쉬워짐.
  * => 각각의 기능에 대해서만 처리하고 반환되는 데이터를 전달함으로써 기능별 구현에 유연함.

@@ -23,12 +23,7 @@ export const PokemonEvolution = ({ id }) => {
   const [evolutionUrl, setEvolutionUrl] = useState(null);
   const [evolutionResult, setEvolutionResult] = useState([]);
   const { speciesData, isLoading: speciesIsLoading, isError: speciesIsError, error: speciesError } = useGetSpecies(id);
-  const {
-    evolutionData,
-    isLoading: evolutionIsLoading,
-    isError: evolutionIsError,
-    error: evolutionError,
-  } = useGetEvolution(evolutionUrl);
+  const { evolutionData } = useGetEvolution(evolutionUrl);
   const sliderRef = useRef();
 
   useEffect(() => {
@@ -49,7 +44,7 @@ export const PokemonEvolution = ({ id }) => {
   } = useLoadEvolutionImages(ids);
 
   if (speciesIsLoading) return <LoadingComponent loadingMessage={`상세 페이지 로딩 중`} />;
-  if (speciesIsError) return <ErrorComponent errorMessage={error.message} />;
+  if (speciesIsError) return <ErrorComponent errorMessage={speciesError.message} />;
 
   const extractData = obj => {
     if (!obj) return;
@@ -76,7 +71,7 @@ export const PokemonEvolution = ({ id }) => {
       {imagesSrc &&
         imagesSrc.map((item, key) => (
           <li key={key} className={style.evolution_item}>
-            <img src={item.src} />
+            <img src={item.src} alt={item.name} />
             <span>{item.name}</span>
           </li>
         ))}

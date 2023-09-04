@@ -67,11 +67,14 @@ export const Card = ({ children }) => {
   const isFlipActive = isFlip ? style.isActive : null;
 
   return (
-    <>
-      <div className={`${style.card} ${isFlipActive}`} onClick={() => setIsFlip(prev => !prev)}>
-        {children}
-      </div>
-    </>
+    <div
+      role="button"
+      className={`${style.card} ${isFlipActive}`}
+      onClick={() => setIsFlip(prev => !prev)}
+      onKeyPress={onKeyPressHandler}
+    >
+      {children}
+    </div>
   );
 };
 

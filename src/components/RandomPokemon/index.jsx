@@ -6,7 +6,6 @@ import { CaptureContext } from '../Context/captureContext';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { SpritesList } from '../PokemonDetail/SpritesList';
-import { fetchPokemonTotalCount } from '@/api/pokemonApi';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
@@ -72,7 +71,7 @@ export const RandomPokemon = () => {
     localStorage.setItem('myMonster', JSON.stringify(myPokemon));
   }, [myPokemon]);
 
-  if (isLoading) return <LoadingComponent loadingMessage={'상세 페이지로 이동 중'} />;
+  if (isLoading) return <LoadingComponent loadingMessage={'포켓몬 잡으러 가는 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
   const { sprites } = pokemonData;

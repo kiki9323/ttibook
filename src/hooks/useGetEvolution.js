@@ -1,4 +1,4 @@
-import { fetchPokemonEvolution } from '../api/proxyApi';
+import { fetchPokemonEvolution } from '../api/pokemonApi';
 import { useQuery } from 'react-query';
 
 const useGetEvolution = url => {
