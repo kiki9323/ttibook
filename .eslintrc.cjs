@@ -15,5 +15,6 @@ module.exports = {
   plugins: ['react-refresh', 'react', 'react-hooks', 'jsx-a11y'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'react/prop-types': 'off',
   },
 };
