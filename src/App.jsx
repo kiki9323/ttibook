@@ -4,8 +4,9 @@ import { Route, Routes } from 'react-router-dom';
 
 import { PokemonBook } from '@/components/PokemonBook';
 import { PokemonDetail } from '@/components/PokemonDetail';
-import { PokemonLists } from './components/PokemonLists/index';
+import { PokemonLists } from '@/components/PokemonLists';
 import { RandomGacha } from '@/components/RandomGacha';
+import { RandomPokemon } from '@/components/RandomPokemon';
 import React from 'react';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PokemonLists />} />
           <Route path="/random-gacha" element={<RandomGacha />} />
+          <Route path="/random-pokemon/:id" element={<RandomPokemon />} />
           <Route path="/pokemon-detail/:id" element={<PokemonDetail />} />
           <Route path="/my-collection" element={<PokemonBook />} />
         </Routes>

@@ -6,13 +6,12 @@ import { Link } from 'react-router-dom';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonType } from '@components/PokemonType';
 import { fetchDataFromUrls } from '@/api/pokemonApi';
-import { instance } from '@/api/axiosConfig';
 import { pokemonTypeTranslationAndColor } from '@/utils/constants';
 import style from './index.module.scss';
 import useGetAllPokemon from '@/hooks/useGetAllPokemon';
 
 export const PokemonLists = () => {
-  const { data, status, fetchNextPage, hasNextPage } = useGetAllPokemon(20);
+  const { data, status, fetchNextPage, hasNextPage } = useGetAllPokemon(10);
 
   let pokeResult = [];
   let speciesResult = [];
@@ -87,73 +86,42 @@ export const PokemonLists = () => {
       <ul className={style.list}>
         {mergedAllData &&
           mergedAllData.map(pokemon => {
-            const {
-              id,
-              names,
-              types,
-              weight,
-              height,
-              stats,
-              abilities,
-              shape,
-              flavor_text_entries,
-              genera,
-              color,
-              sprites,
-            } = pokemon;
-
-            const typesResult = types.map(type => type.type.name);
-            const abilityResult = abilities.map(ability => ability.ability.name);
+            const { id, names, types, stats, shape, flavor_text_entries, genera, sprites } = pokemon;
 
             const koName = langFilterAndAccessor(names, 'ko', 'name');
-            const koFlavorText = langFilterAndAccessor(flavor_text_entries, 'ko', 'flavor_text');
-            const koGeneraText = langFilterAndAccessor(genera, 'ko', 'genus');
-
-            const statsProcessing = stats.map(stat => {
-              return {
-                [stat.stat.name]: stat.base_stat,
-              };
-            });
-
-            const statsResult = statsProcessing.map((stat, index) => {
-              return Object.entries(stat).map(([key, value]) => {
-                return (
-                  <p key={`${key}-${index}`}>
-                    {key}: {value}
-                  </p>
-                );
-              });
-            });
 
             const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
+
             const gradient = `linear-gradient(to top , ${colors
               .map((color, index) => {
                 if (colors.length === 1 && index === colors.length - 1) {
-                  return `${color + '80'}, #fff`;
+                  return `${color + '50'}, #cacaca`;
                 } else {
-                  return color + '80';
+                  return color + '50';
                 }
               })
               .join(', ')})`;
 
             return (
               <li key={id} className={style.item} style={{ background: `${gradient}` }}>
-                <PokemonType typeName={types[0].type.name}>{koName}</PokemonType>
-                <span className={style.id}>#{formatNumber(id, 4)}</span>
-                <div className={style.img_box}>
-                  <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
-                </div>
-                <div>
-                  타입
-                  {types.map(({ type }, index) => (
-                    <PokemonType typeName={type.name} key={index} />
-                  ))}
-                </div>
-                <p>종류: {koGeneraText}</p>
-                <p>
-                  <span>키: {height * 10} cm</span> | <span>몸무게: {weight / 10} kg</span>
-                </p>
-                <Link to={`/pokemon-detail/${id}`}>상세보기</Link>
+                <Link to={`/pokemon-detail/${id}`}>
+                  <div className={style.img_box}>
+                    <div className={style.name}>
+                      <PokemonType as="h2" typeName={types[0].type.name}>
+                        {koName}
+                      </PokemonType>
+                      <p className={style.id}>#{formatNumber(id, 4)}</p>
+                    </div>
+                    <div className={style.img_box_inner}>
+                      <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+                    </div>
+                  </div>
+                  <div className={style.types}>
+                    {types.map(({ type }, index) => (
+                      <PokemonType typeName={type.name} key={index} />
+                    ))}
+                  </div>
+                </Link>
               </li>
             );
           })}

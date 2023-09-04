@@ -50,8 +50,8 @@ const Back = ({ id, abilities, types, height }) => {
         </div>
       </dl>
       <div className={style.more}>
-        <Link to={`/pokemon-detail/${id}`} className={style.more_btn}>
-          상세 정보 보기
+        <Link to={`/random-pokemon/${id}`} className={style.more_btn}>
+          포켓몬 뽑으러 가기
         </Link>
       </div>
       <Card.Watermark />

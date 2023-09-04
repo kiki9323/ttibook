@@ -3,7 +3,7 @@ import { isBGLight } from '@/utils/utils';
 import { pokemonTypeTranslationAndColor } from '@/utils/constants';
 import style from './index.module.scss';
 
-export const PokemonType = React.memo(({ typeName, styles, children }) => {
+export const PokemonType = React.memo(({ typeName, styles, children, as: Component = 'span' }) => {
   const mappingKeys = Object.keys(pokemonTypeTranslationAndColor);
   const matchedKey = mappingKeys.filter(mappingKey => mappingKey === typeName);
 
@@ -11,15 +11,15 @@ export const PokemonType = React.memo(({ typeName, styles, children }) => {
 
   return (
     <>
-      {matchedKey.map((typeKey, idx) => {
+      {matchedKey.map(typeKey => {
         const backgroundColor = pokemonTypeTranslationAndColor[typeKey].color;
         const isLight = isBGLight(backgroundColor);
         const color = isLight ? '#000' : '#fff';
 
         return (
-          <p key={typeKey} className={`${style.type} ${styles}`} style={{ backgroundColor, color }}>
+          <Component key={typeKey} className={`${style.type} ${styles}`} style={{ backgroundColor, color }}>
             {children ? children : result.ko}
-          </p>
+          </Component>
         );
       })}
     </>

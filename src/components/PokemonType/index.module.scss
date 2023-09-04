@@ -1,6 +1,11 @@
 .type {
   display: inline-flex;
-  padding: 3px 10px;
+  align-items: center;
+  padding: 5px 10px;
   border-radius: 20px;
-  box-shadow: 1px 1.5px 1.5px 0 #adadad;
+  box-shadow: 1px 1.5px 1.5px 0 var(--color-box-shadow);
+  
+  & + & {
+    margin-left: 8px;
+  }
 }
