@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
+import { useEffect, useRef, useState } from 'react';
 
 import { ErrorComponent } from '@components/ErrorComponent';
 import { Link } from 'react-router-dom';
@@ -12,16 +12,10 @@ import useGetAllPokemon from '@/hooks/useGetAllPokemon';
 
 export const PokemonLists = () => {
   const { data, status, fetchNextPage, hasNextPage } = useGetAllPokemon(10);
-
-  let pokeResult = [];
-  let speciesResult = [];
-
-  if (status === 'success') {
-    data.pages.forEach(page => {
-      pokeResult.push(...page.data[0]);
-      speciesResult.push(...page.data[1]);
-    });
-  }
+  const [pokeResult, setPokeResult] = useState([]);
+  const [speciesResult, setSpeciesResult] = useState([]);
+  const [mergedAllData, setMergedAllData] = useState([]);
+  const loadTriggerRef = useRef();
 
   const fetchAdditionalData = async (pokeResult, speciesResult) => {
     if (!pokeResult || !speciesResult) return;
@@ -41,20 +35,30 @@ export const PokemonLists = () => {
     }
   };
 
-  const [mergedAllData, setMergedAllData] = useState([]);
-  const loadTriggerRef = useRef();
-
   useEffect(() => {
     if (status === 'success') {
+      const newPokeResult = [];
+      const newSpeciesResult = [];
+
+      // data.pages.forEach를 사용하여 새로운 데이터를 가져옴
+      data.pages.forEach(page => {
+        newPokeResult.push(...page.data[0]);
+        newSpeciesResult.push(...page.data[1]);
+      });
+
+      // 이전 값과 새로운 값을 합쳐서 업데이트
+      setPokeResult([...newPokeResult]);
+      setSpeciesResult([...newSpeciesResult]);
+
       fetchAdditionalData(pokeResult, speciesResult).then(([pokeResponse, speciesResponse]) => {
-        setMergedAllData(
-          pokeResponse.map(poke => {
-            return { ...poke, ...speciesResponse.find(species => species.id === poke.id) };
-          }),
-        );
+        const newData = pokeResponse.map(poke => {
+          return { ...poke, ...speciesResponse.find(species => species.id === poke.id) };
+        });
+        // 새롭게 받아온 데이터만 추가
+        setMergedAllData([...newData]);
       });
     }
-  }, [status, mergedAllData]);
+  }, [status, data]);
 
   useEffect(() => {
     let observer;
@@ -65,13 +69,13 @@ export const PokemonLists = () => {
           entries[0].isIntersecting && fetchNextPage();
         },
         {
-          threshold: 0.5,
+          threshold: 1,
         },
       );
       observer.observe(loadTriggerRef.current);
     }
     return () => observer?.disconnect();
-  }, [hasNextPage]);
+  }, [fetchNextPage, hasNextPage]);
 
   if (status === 'loading') return <LoadingComponent loadingMessage={'포켓몬 불러오는 중'} />;
   if (status === 'error') return <ErrorComponent errorMessage={status.error.message} />;
@@ -84,47 +88,44 @@ export const PokemonLists = () => {
         {/* 필터링 */}
       </nav>
       <ul className={style.list}>
-        {mergedAllData &&
-          mergedAllData.map(pokemon => {
-            const { id, names, types, stats, shape, flavor_text_entries, genera, sprites } = pokemon;
+        {mergedAllData.map(pokemons => {
+          const { id, names, types, sprites } = pokemons;
 
-            const koName = langFilterAndAccessor(names, 'ko', 'name');
+          const koName = langFilterAndAccessor(names, 'ko', 'name');
+          const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
+          const gradient = `linear-gradient(to top , ${colors
+            .map((color, index) => {
+              if (colors.length === 1 && index === colors.length - 1) {
+                return `${color + '50'}, #cacaca`;
+              } else {
+                return color + '50';
+              }
+            })
+            .join(', ')})`;
 
-            const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
-
-            const gradient = `linear-gradient(to top , ${colors
-              .map((color, index) => {
-                if (colors.length === 1 && index === colors.length - 1) {
-                  return `${color + '50'}, #cacaca`;
-                } else {
-                  return color + '50';
-                }
-              })
-              .join(', ')})`;
-
-            return (
-              <li key={id} className={style.item} style={{ background: `${gradient}` }}>
-                <Link to={`/pokemon-detail/${id}`}>
-                  <div className={style.img_box}>
-                    <div className={style.name}>
-                      <PokemonType as="h2" typeName={types[0].type.name}>
-                        {koName}
-                      </PokemonType>
-                      <p className={style.id}>#{formatNumber(id, 4)}</p>
-                    </div>
-                    <div className={style.img_box_inner}>
-                      <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
-                    </div>
+          return (
+            <li key={id} className={style.item} style={{ background: `${gradient}` }}>
+              <Link to={`/pokemon-detail/${id}`}>
+                <div className={style.img_box}>
+                  <div className={style.name}>
+                    <PokemonType as="h2" typeName={types[0].type.name}>
+                      {koName}
+                    </PokemonType>
+                    <p className={style.id}>#{formatNumber(id, 4)}</p>
                   </div>
-                  <div className={style.types}>
-                    {types.map(({ type }, index) => (
-                      <PokemonType typeName={type.name} key={index} />
-                    ))}
+                  <div className={style.img_box_inner}>
+                    <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
                   </div>
-                </Link>
-              </li>
-            );
-          })}
+                </div>
+                <div className={style.types}>
+                  {types.map(({ type }, index) => (
+                    <PokemonType typeName={type.name} key={index} />
+                  ))}
+                </div>
+              </Link>
+            </li>
+          );
+        })}
         <li className={style.item} ref={loadTriggerRef} style={{ height: '300px', background: 'pink' }}>
           로오딩 <br />
           로오딩 <br />

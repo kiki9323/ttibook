@@ -32,7 +32,7 @@ export const fetchPokemonSpeciesById = async id => {
   }
 };
 
-export const fetchPokemonByRange = async (pageParam = 1, pageSize = 100) => {
+export const fetchPokemonByRange = async (pageParam = 1, pageSize) => {
   const limitParams = {
     offset: (pageParam - 1) * pageSize,
     limit: pageSize,

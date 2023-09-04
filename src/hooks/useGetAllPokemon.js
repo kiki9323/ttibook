@@ -8,7 +8,7 @@ import { useInfiniteQuery } from 'react-query';
 const useGetAllPokemon = pageSize => {
   const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ['allPokemon'],
-    ({ pageParam }) => fetchPokemonByRange(pageParam),
+    ({ pageParam }) => fetchPokemonByRange(pageParam, pageSize),
     {
       getNextPageParam: lastPage => lastPage.nextPageNumber,
       keepPreviousData: true,
