@@ -11,7 +11,7 @@ export const RandomGacha = () => {
   const [randomId, setRandomId] = useState(null);
   const [showCard, setShowCard] = useState(false);
   const [notification, setNotification] = useState('');
-  const { data: pokemonData, isLoading, isError, error, refetch } = useGetPokemon(randomId);
+  const { data: pokemonData, isLoading, isError, error } = useGetPokemon(randomId);
   const [gachaPokemon, setGachaPokemon] = useState(null);
   const NOTI_TIME = 2000;
   const timerId = useRef();

@@ -1,7 +1,6 @@
-import React from 'react';
 import style from './index.module.scss';
 
-export const PokemonAbilites = ({ abilities, habitat, capture_rate, genus, color, height, weight }) => {
+export const PokemonAbilities = ({ abilities, habitat, capture_rate, genus, color, height, weight }) => {
   return (
     <>
       <dt>분류</dt>

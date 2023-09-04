@@ -1,6 +1,6 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { CaptureContext } from '../Context/captureContext';
 import { ErrorComponent } from '@components/ErrorComponent';
@@ -75,7 +75,7 @@ export const RandomPokemon = () => {
   if (isLoading) return <LoadingComponent loadingMessage={'상세 페이지로 이동 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
-  const { sprites, stats } = pokemonData;
+  const { sprites } = pokemonData;
   const { flavor_text_entries, capture_rate, names, is_legendary, is_mythical } = speciesData;
 
   const koName = langFilterAndAccessor(names, 'ko', 'name');
@@ -83,12 +83,6 @@ export const RandomPokemon = () => {
 
   const hoverShaking = hoverStatus === HoverStatus.SHAKING ? style.isShaking : '';
   const hoverFading = hoverStatus === HoverStatus.FADING ? style.isFading : '';
-
-  const statsProcessing = stats.map(stat => {
-    return {
-      [stat.stat.name]: stat.base_stat,
-    };
-  });
 
   return (
     <div className={style.detail}>

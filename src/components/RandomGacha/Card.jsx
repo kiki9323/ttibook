@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-
 import { Link } from 'react-router-dom';
 import { PokemonType } from '@components/PokemonType';
 import style from './index.module.scss';
+import { useState } from 'react';
 
 const Front = ({ id, name, imageSrc, types }) => {
   return (

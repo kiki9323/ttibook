@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { DropBox } from '@components/DropBox';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { PokemonAbilites } from './PokemonAbilites';
+import { PokemonAbilities } from './PokemonAbilities';
 import { PokemonEvolution } from '../PokemonEvolution';
 import { SpritesList } from './SpritesList';
 import { StatsChart } from '../PokemonLists/StatsChart';
@@ -13,10 +13,7 @@ import { fetchPokemonTotalCount } from '@/api/pokemonApi';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
-const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
-
 export const PokemonDetail = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const currentId = Number(id);
   const [lastId, setLastId] = useState(0);
@@ -44,16 +41,6 @@ export const PokemonDetail = () => {
     return {
       [stat.stat.name]: stat.base_stat,
     };
-  });
-
-  const statsResult = statsProcessing.map((stat, index) => {
-    return Object.entries(stat).map(([key, value]) => {
-      return (
-        <p key={`${key}-${index}`}>
-          {key}: {value}
-        </p>
-      );
-    });
   });
 
   return (
@@ -93,7 +80,7 @@ export const PokemonDetail = () => {
           <h2 className="blind">포켓몬 상세 설명</h2>
           {is_legendary && <strong>전설 포켓몬</strong>}
           {is_mythical && <strong>신화 포켓몬</strong>}
-          <PokemonAbilites
+          <PokemonAbilities
             abilities={pokemonData.abilities}
             habitat={habitat}
             capture_rate={capture_rate}

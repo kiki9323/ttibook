@@ -1,4 +1,3 @@
-import React from 'react';
 import { SpritesImage } from './SpritesImage';
 import { rearrangeStrings } from '@/utils/utils';
 import style from './index.module.scss';
