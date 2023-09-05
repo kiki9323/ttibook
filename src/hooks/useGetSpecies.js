@@ -7,7 +7,9 @@ const useGetSpecies = id => {
     isLoading,
     isError,
     error,
-  } = useQuery(['pokemon-species', id], () => fetchPokemonSpeciesById(id));
+  } = useQuery(['pokemon-species', id], () => fetchPokemonSpeciesById(id), {
+    enabled: !!id, // id가 존재할 경우에만 쿼리 활성화
+  });
 
   return {
     speciesData,

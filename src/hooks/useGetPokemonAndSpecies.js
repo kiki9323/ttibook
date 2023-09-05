@@ -1,5 +1,4 @@
-import { API_BASE_URL, instance } from '../api/axiosConfig';
-
+import { instance } from '../api/axiosConfig';
 import { useQuery } from 'react-query';
 
 const fetchById = async id => {
@@ -19,6 +18,7 @@ const usePokemonAndSpecies = id => {
     error,
   } = useQuery(['pokemon_and_species', id], async () => fetchById(id), {
     refetchOnWindowFocus: false,
+    enabled: !!id,
   });
 
   return {

@@ -69,17 +69,11 @@ export const clickMovingScroll = slider => {
   });
 };
 
-export const findLang = (attr, language, field) => {
-  const entry = attr.find(entry => entry.language.name === language);
-  return entry ? entry[field] : undefined; // .genus -> 이거 다시 수정할 필요 있어보임.
-};
-
 export const formatNumber = (num, digit) => {
   return String(num).padStart(digit, '0');
 };
 
-// from PokemonLists
-export const filterByLanguage = (arr, lang) => arr.filter(item => item.language.name === lang);
+export const filterByLanguage = (arr, lang) => arr?.filter(item => item.language.name === lang);
 
 export const selectRandomly = arr => {
   if (!arr.length) return null;
@@ -96,4 +90,18 @@ export const langFilter = (arr, lang) => {
 export const langFilterAndAccessor = (arr, lang, fieldName) => {
   const result = langFilter(arr, lang);
   return result ? result[fieldName] : null;
+};
+
+export const gradientBackgroundColor = colors => {
+  const colorString = colors
+    .map((color, index) => {
+      if (colors.length === 1 && index === colors.length - 1) {
+        return `${color + '50'}, #cacaca`;
+      } else {
+        return color + '50';
+      }
+    })
+    .join(', ');
+
+  return `linear-gradient(to top ,${colorString})`;
 };
