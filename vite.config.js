@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -19,6 +20,7 @@ export default defineConfig({
         additionalData: `@import "./src/assets/scss/common/helper/variables"; @import "./src/assets/scss/common/helper/mixins"; @import "./src/assets/scss/common/helper/color"; @import "./src/assets/scss/common/helper/theme";`,
       },
     },
+    devSourcemap: true,
   },
   build: {
     target: 'es2017',
