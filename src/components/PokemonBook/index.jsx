@@ -1,5 +1,6 @@
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 
+import { DeleteButton } from './DeleteButton';
 import { LikedButton } from '../LikedButton';
 import { Modal } from '../Modal';
 import { PokemonType } from '@components/PokemonType';
@@ -10,12 +11,14 @@ export const PokemonBook = () => {
   const navigate = useNavigate();
 
   const initialData = JSON.parse(localStorage.getItem('myMonster')) || [];
-  const [myPokemon, setMyPokemon] = useState(initialData);
+  const [myPokemon] = useState(initialData);
   const [displayedPokemon, setDisplayedPokemon] = useState(initialData);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isPending, startTransition] = useTransition();
+
+  const [toggleOption, setToggleOption] = useState(false);
 
   const handleSearch = e => {
     const searchQuery = e.target.value;
@@ -43,10 +46,14 @@ export const PokemonBook = () => {
     setIsModalOpen(displayedPokemon.find(p => p.id === mon.id));
   };
 
-  const [toggleOption, setToggleOption] = useState(false);
   const handleToggle = () => {
     setToggleOption(prev => !prev);
   };
+
+  useEffect(() => {
+    const modifiedData = JSON.parse(localStorage.getItem('myMonster')) || [];
+    setDisplayedPokemon(modifiedData);
+  }, []);
 
   return (
     <div className={style.myPokemon}>
@@ -77,7 +84,7 @@ export const PokemonBook = () => {
               onChange={handleSearch}
               className={`${style.input} ${searchQuery ? style.clear : ''}`}
             />
-            <button onClick={handleClearQuery} className={`${style.input_clear} ${searchQuery && style.isActive}`}>
+            <button onClick={handleClearQuery} className={`${style.delete_icon} ${!searchQuery && style.is_inactive}`}>
               <span></span>
             </button>
           </div>
@@ -105,6 +112,7 @@ export const PokemonBook = () => {
                   {mon.name}
                 </PokemonType>
                 <LikedButton myPokemon={myPokemon} targetId={mon.id} />
+                <DeleteButton targetId={mon.id} setDisplayedPokemon={setDisplayedPokemon} />
               </li>
             );
           })}

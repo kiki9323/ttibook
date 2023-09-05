@@ -37,7 +37,6 @@
   }
 }
 
-
 .img {
   width: 100%;
 
@@ -66,7 +65,7 @@
   font-size: 15px;
   line-height: 1.25;
 
-  &_wrap { 
+  &_wrap {
     display: flex;
     display: inline-flex;
     position: relative;
@@ -81,13 +80,20 @@
   &_label {
     padding: 0 5px;
   }
+}
 
-  &_clear {
+.option {
+  &_wrap {
     display: none;
-    padding: 3px;
+  }
+}
 
-    &.isActive {
-      display: flex;
+.delete {
+  &_icon {
+    padding: 10px;
+
+    &.is_inactive {
+      display: none;
     }
 
     span {
@@ -109,16 +115,16 @@
       &::after {
         transform: translateX(-50%) rotate(45deg);
       }
-      
+
       &::before {
         transform: translateX(-50%) rotate(-45deg);
       }
     }
   }
-}
 
-.option {
-  &_wrap {
-    display: none;
+  &_poke {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
