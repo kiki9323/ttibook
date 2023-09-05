@@ -1,4 +1,4 @@
-import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
+import { formatNumber, gradientBackgroundColor, langFilterAndAccessor } from '@/utils/utils';
 import { useEffect, useRef, useState } from 'react';
 
 import { ErrorComponent } from '@components/ErrorComponent';
@@ -9,8 +9,9 @@ import { fetchDataFromUrls } from '@/api/pokemonApi';
 import { pokemonTypeTranslationAndColor } from '@/utils/constants';
 import style from './index.module.scss';
 import useGetAllPokemon from '@/hooks/useGetAllPokemon';
+import useIntersectionObserver from '@/hooks/useObserver';
 
-export const PokemonLists = () => {
+export const PokemonIndex = () => {
   const { data, status, fetchNextPage, hasNextPage } = useGetAllPokemon(10);
   const [pokeResult, setPokeResult] = useState([]);
   const [speciesResult, setSpeciesResult] = useState([]);
@@ -18,17 +19,15 @@ export const PokemonLists = () => {
   const loadTriggerRef = useRef();
 
   const fetchAdditionalData = async (pokeResult, speciesResult) => {
-    if (!pokeResult || !speciesResult) return;
-
-    let pokeUrls = pokeResult.map(item => item.url);
-    let speciesUrls = speciesResult.map(item => item.url);
+    const extractUrls = dataResults => dataResults.map(item => item.url);
+    const pokeUrls = extractUrls(pokeResult);
+    const speciesUrls = extractUrls(speciesResult);
 
     try {
       const [pokeResponses, speciesResponses] = await Promise.all([
         fetchDataFromUrls(pokeUrls),
         fetchDataFromUrls(speciesUrls),
       ]);
-
       return [pokeResponses, speciesResponses];
     } catch (error) {
       throw new Error('Failed to "fetchDataDetails"' + error.message);
@@ -40,42 +39,28 @@ export const PokemonLists = () => {
       const newPokeResult = [];
       const newSpeciesResult = [];
 
-      // data.pages.forEach를 사용하여 새로운 데이터를 가져옴
       data.pages.forEach(page => {
         newPokeResult.push(...page.data[0]);
         newSpeciesResult.push(...page.data[1]);
       });
 
-      // 이전 값과 새로운 값을 합쳐서 업데이트
       setPokeResult([...newPokeResult]);
       setSpeciesResult([...newSpeciesResult]);
 
       fetchAdditionalData(pokeResult, speciesResult).then(([pokeResponse, speciesResponse]) => {
         const newData = pokeResponse.map(poke => {
-          return { ...poke, ...speciesResponse.find(species => species.id === poke.id) };
+          const matchingSpecies = speciesResponse.find(species => species.id === poke.id);
+          if (matchingSpecies) {
+            return { ...poke, ...matchingSpecies };
+          }
+          return poke;
         });
-        // 새롭게 받아온 데이터만 추가
         setMergedAllData([...newData]);
       });
     }
   }, [status, data]);
 
-  useEffect(() => {
-    let observer;
-
-    if (loadTriggerRef.current && hasNextPage) {
-      observer = new IntersectionObserver(
-        entries => {
-          entries[0].isIntersecting && fetchNextPage();
-        },
-        {
-          threshold: 1,
-        },
-      );
-      observer.observe(loadTriggerRef.current);
-    }
-    return () => observer?.disconnect();
-  }, [fetchNextPage, hasNextPage]);
+  useIntersectionObserver(loadTriggerRef, fetchNextPage, hasNextPage);
 
   if (status === 'loading') return <LoadingComponent loadingMessage={'포켓몬 불러오는 중'} />;
   if (status === 'error') return <ErrorComponent errorMessage={status.error.message} />;
@@ -88,20 +73,12 @@ export const PokemonLists = () => {
         {/* 필터링 */}
       </nav>
       <ul className={style.list}>
-        {mergedAllData.map(pokemons => {
-          const { id, names, types, sprites } = pokemons;
+        {mergedAllData.map(pokemon => {
+          const { id, names, types, sprites } = pokemon;
 
           const koName = langFilterAndAccessor(names, 'ko', 'name');
           const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
-          const gradient = `linear-gradient(to top , ${colors
-            .map((color, index) => {
-              if (colors.length === 1 && index === colors.length - 1) {
-                return `${color + '50'}, #cacaca`;
-              } else {
-                return color + '50';
-              }
-            })
-            .join(', ')})`;
+          const gradient = gradientBackgroundColor(colors);
 
           return (
             <li key={id} className={style.item} style={{ background: `${gradient}` }}>

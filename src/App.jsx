@@ -4,17 +4,16 @@ import { Route, Routes } from 'react-router-dom';
 
 import { PokemonBook } from '@/components/PokemonBook';
 import { PokemonDetail } from '@/components/PokemonDetail';
-import { PokemonLists } from '@/components/PokemonLists';
+import { PokemonIndex } from '@/components/PokemonIndex';
 import { RandomGacha } from '@/components/RandomGacha';
 import { RandomPokemon } from '@/components/RandomPokemon';
-import React from 'react';
 
 function App() {
   return (
     <main className="main">
       <div className="inner">
         <Routes>
-          <Route path="/" element={<PokemonLists />} />
+          <Route path="/" element={<PokemonIndex />} />
           <Route path="/random-gacha" element={<RandomGacha />} />
           <Route path="/random-pokemon/:id" element={<RandomPokemon />} />
           <Route path="/pokemon-detail/:id" element={<PokemonDetail />} />
