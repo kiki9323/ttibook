@@ -8,7 +8,7 @@ import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonAbilities } from './PokemonAbilities';
 import { PokemonEvolution } from '../PokemonEvolution';
 import { SpritesList } from './SpritesList';
-import { StatsChart } from '../PokemonLists/StatsChart';
+import { StatsChart } from '../PokemonIndex/StatsChart';
 import { fetchPokemonTotalCount } from '@/api/pokemonApi';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
