@@ -1,19 +1,22 @@
+import { getRandomNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useEffect, useRef, useState } from 'react';
 
 import { Card } from './Card';
+import { DownLoadButton } from '../DownLoadButton/index';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { getRandomNumber } from '@/utils/utils';
 import style from './index.module.scss';
-import useGetPokemon from '@/hooks/useGetPokemon';
+// import useGetPokemon from '@/hooks/useGetPokemon';
+import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
 export const RandomGacha = () => {
+  const savedCardRef = useRef();
   const [randomId, setRandomId] = useState(null);
   const [showCard, setShowCard] = useState(false);
   const [notification, setNotification] = useState('');
-  const { data: pokemonData, isLoading, isError, error } = useGetPokemon(randomId);
+  const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(randomId);
   const [gachaPokemon, setGachaPokemon] = useState(null);
-  const NOTI_TIME = 2000;
+  const NOTI_TIME = 1500;
   const timerId = useRef();
 
   const handleGacha = async () => {
@@ -23,9 +26,16 @@ export const RandomGacha = () => {
   useEffect(() => {
     setShowCard(false);
 
-    if (pokemonData) {
+    if (pokemonData && speciesData) {
+      const koName = langFilterAndAccessor(speciesData.names, 'ko', 'name');
+
       setGachaPokemon(pokemonData);
-      setNotification(`포켓몬 ${pokemonData.name} (ID: ${pokemonData.id})을(를) 뽑았다!`);
+      const notiText = (
+        <>
+          포켓몬 {koName} <br /> (ID: {pokemonData.id})을(를) 뽑았다!
+        </>
+      );
+      setNotification(notiText);
 
       timerId.current = setTimeout(() => {
         setNotification('');
@@ -34,7 +44,7 @@ export const RandomGacha = () => {
     }
 
     return () => clearTimeout(timerId.current);
-  }, [pokemonData]);
+  }, [pokemonData, speciesData]);
 
   if (isLoading) return <LoadingComponent loadingMessage={'뽑는 중...'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
@@ -48,13 +58,14 @@ export const RandomGacha = () => {
         {gachaPokemon && (
           <>
             <div className={style.notification}>{notification}</div>
-            <button>공유하기</button>
+            <DownLoadButton fileName={pokemonData.name} forwardedRef={savedCardRef} />
             {showCard && (
               <Card>
                 <Card.Front
+                  forwardedRef={savedCardRef}
                   id={gachaPokemon.id}
                   types={gachaPokemon.types}
-                  name={gachaPokemon.name}
+                  name={langFilterAndAccessor(speciesData.names, 'ko', 'name')}
                   imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
                 />
                 <Card.Back
@@ -62,6 +73,7 @@ export const RandomGacha = () => {
                   types={gachaPokemon.types}
                   abilities={gachaPokemon.abilities}
                   height={gachaPokemon.height}
+                  weight={gachaPokemon.weight}
                 />
               </Card>
             )}
