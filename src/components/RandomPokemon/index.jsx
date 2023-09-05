@@ -80,8 +80,8 @@ export const RandomPokemon = () => {
   const koName = langFilterAndAccessor(names, 'ko', 'name');
   const koFlavorText = langFilterAndAccessor(flavor_text_entries, 'ko', 'flavor_text');
 
-  const hoverShaking = hoverStatus === HoverStatus.SHAKING ? style.isShaking : '';
-  const hoverFading = hoverStatus === HoverStatus.FADING ? style.isFading : '';
+  const hoverShaking = hoverStatus === HoverStatus.SHAKING ? style.is_shaking : '';
+  const hoverFading = hoverStatus === HoverStatus.FADING ? style.is_fading : '';
 
   return (
     <div className={style.detail}>
@@ -92,8 +92,8 @@ export const RandomPokemon = () => {
           <span className={style.detail_id}>(#{formatNumber(id, 4)})</span>
         </strong>
         <div className={style.layout}>
-          <SpritesList sprites={sprites} hoverShaking={hoverShaking} hoverFading={hoverFading} />
           <p className={style.info_desc}>{koFlavorText}</p>
+          <SpritesList sprites={sprites} hoverShaking={hoverShaking} hoverFading={hoverFading} />
         </div>
       </div>
       <div className={style.interface}>

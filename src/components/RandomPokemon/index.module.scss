@@ -15,11 +15,6 @@
     padding: 0 20px;
   }
 
-  .link_btn {
-    display: block;
-    padding: 10px;
-  }
-
   &_title {
     width: 100%;
     font-size: 28px;
@@ -35,17 +30,11 @@
   &_id {
     color: var(--color-gray);
   }
-  
+
   .layout {
-    display: inline-flex;
-    flex-direction: column;
-    width: 60%;
+    display: flex;
     padding: 30px;
     vertical-align: top;
-
-    &:first-of-type {
-      width: 40%;
-    }
 
     &_inner {
       display: flex;
@@ -53,7 +42,7 @@
       justify-content: space-between;
     }
   }
-  
+
   .sprite {
     &_list {
       display: flex;
@@ -74,9 +63,9 @@
         font-size: 22px;
       }
 
-      &.isShaking { 
+      &.isShaking {
         img {
-          animation: shaking .1s linear infinite;
+          animation: shaking 0.1s linear infinite;
         }
       }
 
@@ -88,10 +77,9 @@
       }
     }
   }
-  
+
   .info {
     &_desc {
-      width: 100%;
       margin-top: 25px;
       padding: 30px;
       border: 2px solid var(--color-black);
@@ -123,9 +111,9 @@
       font-size: 22px;
     }
 
-    &.isShaking { 
+    &.isShaking {
       img {
-        animation: shaking .1s linear infinite;
+        animation: shaking 0.1s linear infinite;
       }
     }
 
@@ -170,21 +158,24 @@
   }
 }
 
-
 @keyframes shaking {
-  0% { transform: rotate(0deg);
+  0% {
+    transform: rotate(0deg);
   }
 
-  25% { transform: rotate(5deg);
+  25% {
+    transform: rotate(5deg);
   }
 
-  50% { transform: rotate(0deg);
+  50% {
+    transform: rotate(0deg);
   }
 
-  75% { transform: rotate(-5deg);
+  75% {
+    transform: rotate(-5deg);
   }
 
-  100% { transform: rotate(0deg);
+  100% {
+    transform: rotate(0deg);
   }
 }
-
