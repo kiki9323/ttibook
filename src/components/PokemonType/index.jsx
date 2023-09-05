@@ -25,3 +25,5 @@ export const PokemonType = React.memo(({ typeName, styles, children, as: Compone
     </>
   );
 });
+
+PokemonType.displayName = 'PokemonType';
