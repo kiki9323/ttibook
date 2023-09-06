@@ -21,7 +21,7 @@ export const PokemonBook = () => {
 
   const handleSearch = e => {
     const searchQueryValue = e.target.value;
-    const filteredData = displayedPokemon.filter(pokemon =>
+    const filteredData = state.filter(pokemon =>
       pokemon.name.toLowerCase().includes(searchQueryValue.toLowerCase()),
     );
     setSearchQuery(searchQueryValue);
