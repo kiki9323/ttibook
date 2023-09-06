@@ -1,4 +1,4 @@
-.myPokemon {
+.my_pokemon {
   &_list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -21,7 +21,7 @@
     }
   }
 
-  .myPokemon_name {
+  &_name {
     margin-top: 10px;
   }
 
@@ -124,7 +124,7 @@
 
   &_poke {
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
   }
 }

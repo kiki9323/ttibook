@@ -2,10 +2,12 @@ import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { CaptureContext } from '@/context/captureContext';
+import { CaptureContext } from '@/context/TestContext';
 import { ErrorComponent } from '@components/ErrorComponent';
+import { Layout } from '../../layout/Layout';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { SpritesList } from '@components/PokemonDetail/SpritesList';
+import { POKEMON_LIKED_KEY } from '@/utils/constants';
+import { SpritesList } from '../PokemonDetail/SpritesList';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 
@@ -17,7 +19,7 @@ const getInitialMyPokemon = () => {
       throw new Error('Local Storage is not supported or accessible');
     }
 
-    const savedData = localStorage.getItem('myMonster');
+    const savedData = localStorage.getItem(POKEMON_LIKED_KEY);
     if (savedData) {
       return JSON.parse(savedData);
     }
@@ -34,7 +36,7 @@ export const RandomPokemon = () => {
 
   const [myPokemon, setMyPokemon] = useState(getInitialMyPokemon());
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
-  const { isCaptured, setIsCaptured } = useContext(CaptureContext);
+  const { setIsCaptured } = useContext(CaptureContext);
 
   const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
 
@@ -68,7 +70,7 @@ export const RandomPokemon = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('myMonster', JSON.stringify(myPokemon));
+    localStorage.setItem(POKEMON_LIKED_KEY, JSON.stringify(myPokemon));
   }, [myPokemon]);
 
   if (isLoading) return <LoadingComponent loadingMessage={'포켓몬 잡으러 가는 중'} />;
@@ -84,34 +86,38 @@ export const RandomPokemon = () => {
   const hoverFading = hoverStatus === HoverStatus.FADING ? style.is_fading : '';
 
   return (
-    <div className={style.detail}>
-      <h1 className={style.detail_title}>포켓몬 랜덤 뽑기</h1>
-      <div className={style.detail_inner}>
-        <strong className={style.detail_name}>
-          {koName}&nbsp;
-          <span className={style.detail_id}>(#{formatNumber(id, 4)})</span>
-        </strong>
-        <div className={style.layout}>
-          <p className={style.info_desc}>{koFlavorText}</p>
-          <SpritesList sprites={sprites} hoverShaking={hoverShaking} hoverFading={hoverFading} />
+    <Layout>
+      <Layout.Title>포켓몬 잡기</Layout.Title>
+      <Layout.Contents>
+        <div className={style.detail}>
+          <div className={style.detail_inner}>
+            <strong className={style.detail_name}>
+              {koName}&nbsp;
+              <span className={style.detail_id}>(#{formatNumber(id, 4)})</span>
+            </strong>
+            <div className={style.layout}>
+              <p className={style.info_desc}>{koFlavorText}</p>
+              <SpritesList sprites={sprites} hoverShaking={hoverShaking} hoverFading={hoverFading} />
+            </div>
+          </div>
+          <div className={style.interface}>
+            <button
+              onClick={handleGoHome}
+              onMouseEnter={() => setHoverStatus(HoverStatus.FADING)}
+              onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
+            >
+              풀어준다.
+            </button>
+            <button
+              onClick={handleCapture}
+              onMouseEnter={() => setHoverStatus(HoverStatus.SHAKING)}
+              onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
+            >
+              맘에 든다! 잡아버리자!
+            </button>
+          </div>
         </div>
-      </div>
-      <div className={style.interface}>
-        <button
-          onClick={handleGoHome}
-          onMouseEnter={() => setHoverStatus(HoverStatus.FADING)}
-          onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
-        >
-          풀어준다.
-        </button>
-        <button
-          onClick={handleCapture}
-          onMouseEnter={() => setHoverStatus(HoverStatus.SHAKING)}
-          onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
-        >
-          맘에 든다! 잡아버리자!
-        </button>
-      </div>
-    </div>
+      </Layout.Contents>
+    </Layout>
   );
 };

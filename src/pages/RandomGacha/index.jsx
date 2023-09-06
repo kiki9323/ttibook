@@ -2,8 +2,9 @@ import { getRandomNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useEffect, useRef, useState } from 'react';
 
 import { Card } from './Card';
-import { DownLoadButton } from '../DownLoadButton/index';
+import { DownLoadButton } from '../../components/DownLoadButton/index';
 import { ErrorComponent } from '@components/ErrorComponent';
+import { Layout } from '../../layout/Layout/index';
 import { LoadingComponent } from '@components/LoadingComponent';
 import style from './index.module.scss';
 // import useGetPokemon from '@/hooks/useGetPokemon';
@@ -50,36 +51,41 @@ export const RandomGacha = () => {
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
   return (
-    <div className={style.gacha}>
-      <button type="button" onClick={handleGacha} className={style.gacha_btn}>
-        랜덤 포켓몬 뽑기
-      </button>
-      <div>
-        {gachaPokemon && (
-          <>
-            <div className={style.notification}>{notification}</div>
-            <DownLoadButton fileName={pokemonData.name} forwardedRef={savedCardRef} />
-            {showCard && (
-              <Card>
-                <Card.Front
-                  forwardedRef={savedCardRef}
-                  id={gachaPokemon.id}
-                  types={gachaPokemon.types}
-                  name={langFilterAndAccessor(speciesData.names, 'ko', 'name')}
-                  imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
-                />
-                <Card.Back
-                  id={gachaPokemon.id}
-                  types={gachaPokemon.types}
-                  abilities={gachaPokemon.abilities}
-                  height={gachaPokemon.height}
-                  weight={gachaPokemon.weight}
-                />
-              </Card>
+    <Layout>
+      <Layout.Title>랜덤 뽑기</Layout.Title>
+      <Layout.Contents>
+        <div className={style.gacha}>
+          <button type="button" onClick={handleGacha} className={style.gacha_btn}>
+            랜덤 포켓몬 뽑기
+          </button>
+          <div>
+            {gachaPokemon && (
+              <>
+                <div className={style.notification}>{notification}</div>
+                <DownLoadButton fileName={pokemonData.name} forwardedRef={savedCardRef} />
+                {showCard && (
+                  <Card>
+                    <Card.Front
+                      forwardedRef={savedCardRef}
+                      id={gachaPokemon.id}
+                      types={gachaPokemon.types}
+                      name={langFilterAndAccessor(speciesData.names, 'ko', 'name')}
+                      imageSrc={gachaPokemon.sprites.other['official-artwork'].front_default}
+                    />
+                    <Card.Back
+                      id={gachaPokemon.id}
+                      types={gachaPokemon.types}
+                      abilities={gachaPokemon.abilities}
+                      height={gachaPokemon.height}
+                      weight={gachaPokemon.weight}
+                    />
+                  </Card>
+                )}
+              </>
             )}
-          </>
-        )}
-      </div>
-    </div>
+          </div>
+        </div>
+      </Layout.Contents>
+    </Layout>
   );
 };

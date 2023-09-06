@@ -2,6 +2,7 @@ import { formatNumber, gradientBackgroundColor, langFilterAndAccessor } from '@/
 import { useEffect, useRef, useState } from 'react';
 
 import { ErrorComponent } from '@components/ErrorComponent';
+import { Layout } from '../../layout/Layout';
 import { Link } from 'react-router-dom';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { PokemonType } from '@components/PokemonType';
@@ -66,49 +67,47 @@ export const PokemonIndex = () => {
   if (status === 'error') return <ErrorComponent errorMessage={status.error.message} />;
 
   return (
-    <div>
-      <h1>포켓몬 도감</h1>
-      <nav>
-        {/* 검색창 */}
-        {/* 필터링 */}
-      </nav>
-      <ul className={style.list}>
-        {mergedAllData.map(pokemon => {
-          const { id, names, types, sprites } = pokemon;
+    <Layout>
+      <Layout.Title>포켓몬 도감</Layout.Title>
+      <Layout.Contents>
+        <ul className={style.list}>
+          {mergedAllData.map(pokemon => {
+            const { id, names, types, sprites } = pokemon;
 
-          const koName = langFilterAndAccessor(names, 'ko', 'name');
-          const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
-          const gradient = gradientBackgroundColor(colors);
+            const koName = langFilterAndAccessor(names, 'ko', 'name');
+            const colors = types.map(type => pokemonTypeTranslationAndColor[type.type.name].color);
+            const gradient = gradientBackgroundColor(colors);
 
-          return (
-            <li key={id} className={style.item} style={{ background: `${gradient}` }}>
-              <Link to={`/pokemon-detail/${id}`}>
-                <div className={style.img_box}>
-                  <div className={style.name}>
-                    <PokemonType as="h2" typeName={types[0].type.name}>
-                      {koName}
-                    </PokemonType>
-                    <p className={style.id}>#{formatNumber(id, 4)}</p>
+            return (
+              <li key={id} className={style.item} style={{ background: `${gradient}` }}>
+                <Link to={`/pokemon-detail/${id}`}>
+                  <div className={style.img_box}>
+                    <div className={style.name}>
+                      <PokemonType as="strong" typeName={types[0].type.name}>
+                        {koName}
+                      </PokemonType>
+                      <p className={style.id}>#{formatNumber(id, 4)}</p>
+                    </div>
+                    <div className={style.img_box_inner}>
+                      <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+                    </div>
                   </div>
-                  <div className={style.img_box_inner}>
-                    <img className={style.img} src={sprites.other.dream_world.front_default} alt={koName} />
+                  <div className={style.types}>
+                    {types.map(({ type }, index) => (
+                      <PokemonType typeName={type.name} key={index} />
+                    ))}
                   </div>
-                </div>
-                <div className={style.types}>
-                  {types.map(({ type }, index) => (
-                    <PokemonType typeName={type.name} key={index} />
-                  ))}
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-        <li className={style.item} ref={loadTriggerRef} style={{ height: '300px', background: 'pink' }}>
-          로오딩 <br />
-          로오딩 <br />
-          로오딩 <br />
-        </li>
-      </ul>
-    </div>
+                </Link>
+              </li>
+            );
+          })}
+          <li className={style.item} ref={loadTriggerRef} style={{ height: '300px', background: 'pink' }}>
+            로오딩 <br />
+            로오딩 <br />
+            로오딩 <br />
+          </li>
+        </ul>
+      </Layout.Contents>
+    </Layout>
   );
 };

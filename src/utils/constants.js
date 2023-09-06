@@ -1,3 +1,8 @@
+/** Local Storage Key */
+export const POKEMON_LIKED_KEY = 'pokemonLiked';
+export const THEME_KEY = 'theme';
+
+/** Color map */
 export const pokemonTypeTranslationAndColor = {
   normal: { ko: '노말', color: '#A8A77A' },
   fighting: { ko: '격투', color: '#C22E28' },

@@ -2,25 +2,27 @@ import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { PokemonBook } from '@/components/PokemonBook';
-import { PokemonDetail } from '@/components/PokemonDetail';
-import { PokemonIndex } from '@/components/PokemonIndex';
-import { RandomGacha } from '@/components/RandomGacha';
-import { RandomPokemon } from '@/components/RandomPokemon';
+import { CaptureProvider } from '@/context/TestContext';
+import { PokemonBook } from '@pages/PokemonBook';
+import { PokemonDetail } from '@pages/PokemonDetail';
+import { PokemonIndex } from '@pages/PokemonIndex';
+import { RandomGacha } from '@pages/RandomGacha';
+import { RandomPokemon } from '@pages/RandomPokemon';
+import { RootLayout } from '@layout/RootLayout';
 
 function App() {
   return (
-    <main className="main">
-      <div className="inner">
-        <Routes>
-          <Route path="/" element={<PokemonIndex />} />
-          <Route path="/random-gacha" element={<RandomGacha />} />
-          <Route path="/random-pokemon/:id" element={<RandomPokemon />} />
+    <CaptureProvider>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<PokemonIndex />} />
           <Route path="/pokemon-detail/:id" element={<PokemonDetail />} />
-          <Route path="/my-collection" element={<PokemonBook />} />
-        </Routes>
-      </div>
-    </main>
+          <Route path="/random-gacha" element={<RandomGacha />} />
+          <Route path="/random-gacha/:id" element={<RandomPokemon />} />
+          <Route path="/mybook" element={<PokemonBook />} />
+        </Route>
+      </Routes>
+    </CaptureProvider>
   );
 }
 

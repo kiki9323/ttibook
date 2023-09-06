@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
 
-import { CaptureContext } from '@/components/Context/captureContext';
+import { CaptureContext } from '@/context/TestContext';
 import style from './index.module.scss';
+import { useContext } from 'react';
 import useDarkMode from '@/hooks/useDarkMode';
 
 export const Header = () => {
@@ -34,8 +34,8 @@ export const Header = () => {
                 <p>랜덤뽑기</p>
               </Link>
             </li>
-            <li className={`${isCapture ? style.isActive : ''}`}>
-              <button type="button" onClick={() => navigate('/my-collection')}>
+            <li className={`${isCapture ? style.is_active : ''}`}>
+              <button type="button" onClick={() => navigate('/mybook')}>
                 MYBOOK
               </button>
             </li>

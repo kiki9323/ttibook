@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { THEME_KEY } from '@/utils/constants';
+
 const useDarkMode = () => {
   const initialTheme = localStorage.getItem('theme') || 'light';
   const [theme, setTheme] = useState(initialTheme);
@@ -11,7 +13,7 @@ const useDarkMode = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
   return { theme, toggleTheme: handleTheme };

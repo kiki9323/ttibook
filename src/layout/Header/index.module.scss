@@ -40,7 +40,7 @@ header {
         content: '';
       }
 
-      &.isActive {
+      &.is_active {
         &::after {
           background-color: var(--color-red);
         }

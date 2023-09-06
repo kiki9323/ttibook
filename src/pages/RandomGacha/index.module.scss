@@ -32,7 +32,7 @@
     height: 100%;
     border-radius: 3px;
     box-shadow: 8px 12px 20px 0 var(--color-box-shadow);
-    transition: transform 0.8s ease-in-out; /* 애니메이션 설정 */
+    transition: transform .8s ease-in-out; /* 애니메이션 설정 */
     backface-visibility: hidden; /* 뒷면 표시 안 함 */
   }
 
@@ -46,19 +46,13 @@
       z-index: 100;
       width: 100%;
       height: 100%;
-      background-image: -webkit-linear-gradient(
-        top left,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.2) 17%,
-        rgba(255, 255, 255, 0.8) 25%,
-        rgba(255, 255, 255, 0.5) 27%
-      );
+      background-image: -webkit-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .2) 17%, rgba(255, 255, 255, .8) 25%, rgba(255, 255, 255, .5) 27%);
       background-position: -120px -120px, 0 0;
       background-size: 250% 250%, 100% 100%;
       background-repeat: no-repeat;
-      opacity: 0.15;
+      opacity: .15;
       pointer-events: none;
-      transition: background-position 0s cubic-bezier(0.91, 0.07, 0.27, 1.63);
+      transition: background-position 0s cubic-bezier(.91, .07, .27, 1.63);
       animation: shimmer 3s infinite;
     }
   }
@@ -67,7 +61,7 @@
     display: flex;
     overflow: hidden;
     flex-direction: column;
-    padding: 15px;
+    padding: 10px;
     background-color: $light-white; /* 뒷면 스타일 설정 */
     transform: rotateY(-180deg); /* 회전 */
   }
@@ -114,6 +108,7 @@
   }
 
   &_summary {
+    overflow-y: scroll;
     color: $medium-black;
     text-align: initial;
 
@@ -131,7 +126,7 @@
 
       dt {
         display: block;
-        padding-inline-end: 10px;
+        padding-inline-end: 5px;
         font-weight: 600;
         font-size: 16px;
       }
@@ -139,7 +134,7 @@
       dd {
         display: inline-block;
         margin-top: 5px;
-        padding-inline-end: 10px;
+        padding-inline-end: 5px;
       }
 
       ul {
@@ -166,11 +161,11 @@
   z-index: -1;
   width: 141.42%;
   height: 141.42%;
-  color: rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, .25);
   font-weight: bold;
   font-size: 2em;
   word-break: break-all;
-  opacity: 0.5;
+  opacity: .5;
   pointer-events: none;
   transform: translate(-50%, -50%) rotate(45deg);
 }
@@ -200,7 +195,7 @@
 
 @keyframes shimmer {
   0% {
-    opacity: 0.3;
+    opacity: .3;
   }
 
   30% {
@@ -214,7 +209,7 @@
 
   100% {
     z-index: 2;
-    opacity: 0.7;
+    opacity: .7;
     transition-duration: 2s;
   }
 }
