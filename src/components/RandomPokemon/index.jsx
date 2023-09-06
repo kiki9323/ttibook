@@ -2,10 +2,10 @@ import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { CaptureContext } from '../Context/captureContext';
+import { CaptureContext } from '@/context/captureContext';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { SpritesList } from '../PokemonDetail/SpritesList';
+import { SpritesList } from '@components/PokemonDetail/SpritesList';
 import style from './index.module.scss';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
 

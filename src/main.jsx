@@ -2,7 +2,7 @@ import '@styles/globals.scss';
 
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
-import { CaptureProvider } from './components/Context/captureContext.jsx';
+import { CaptureProvider } from '@/context/captureContext.jsx';
 import { Header } from '@/layout/Header';
 import { QueryClientProvider } from 'react-query';
 import ReactDOM from 'react-dom/client';

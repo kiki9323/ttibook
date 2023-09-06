@@ -18,8 +18,6 @@ export const SpritesList = ({ sprites, hoverShaking, hoverFading }) => {
     return [key, imgSrc];
   });
 
-  console.log(finalSprites);
-
   return (
     <div className={style.sprite_list}>
       {finalSprites.map(([key, imgSrc], idx) => {
