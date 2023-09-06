@@ -41,11 +41,6 @@ export const PokemonBook = () => {
     setDisplayedPokemon(state);
   };
 
-  const handleModal = mon => {
-    console.log(mon);
-    setIsModalOpen(displayedPokemon.find(p => p.id === mon.id));
-  };
-
   const handleDelete = (targetId) => {
     const newState = state.filter(item => item.id !== targetId);
     setState(newState)
@@ -61,6 +56,11 @@ export const PokemonBook = () => {
     setDisplayedPokemon(newState);
   }
 
+  const handleModal = mon => {
+    console.log(mon);
+    setIsModalOpen(displayedPokemon.find(p => p.id === mon.id));
+  };
+  
   useEffect(() => {
     setDisplayedPokemon(state);
   }, [state]);

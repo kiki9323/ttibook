@@ -57,6 +57,7 @@
 
 .input {
   flex: 1;
+  width: 140px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-inline-start: 10px;
@@ -66,11 +67,10 @@
   line-height: 1.25;
 
   &_wrap {
-    display: flex;
     display: inline-flex;
     position: relative;
     align-items: center;
-    min-width: 252px;
+    min-width: 232px;
     padding-inline-start: 13px;
     padding-inline-end: 13px;
     border-radius: 20px;
