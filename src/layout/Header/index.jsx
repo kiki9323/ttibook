@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import { CaptureContext } from '@/context/TestContext';
+import { CaptureContext } from '@/context/IsCapturedContext';
 import style from './index.module.scss';
 import { useContext } from 'react';
 import useDarkMode from '@/hooks/useDarkMode';

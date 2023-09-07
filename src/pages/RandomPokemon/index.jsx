@@ -2,7 +2,7 @@ import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { CaptureContext } from '@/context/TestContext';
+import { CaptureContext } from '@/context/IsCapturedContext';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { Layout } from '../../layout/Layout';
 import { LoadingComponent } from '@components/LoadingComponent';

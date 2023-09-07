@@ -2,7 +2,7 @@ import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { CaptureProvider } from '@/context/TestContext';
+import { CaptureProvider } from '@/context/IsCapturedContext';
 import { PokemonBook } from '@pages/PokemonBook';
 import { PokemonDetail } from '@pages/PokemonDetail';
 import { PokemonIndex } from '@pages/PokemonIndex';
