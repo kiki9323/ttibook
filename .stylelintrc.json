@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "stylelint-config-sass-guidelines"
-  ],
+  "extends": ["stylelint-config-sass-guidelines"],
   "rules": {
     "selector-max-id": 3,
     "function-url-quotes": "never",
@@ -14,15 +12,11 @@
     "max-nesting-depth": [
       5,
       {
-        "ignoreAtRules": [
-          "each",
-          "media",
-          "supports",
-          "include"
-        ]
+        "ignoreAtRules": ["each", "media", "supports", "include"]
       }
     ],
     "number-leading-zero": "never",
+    "no-extra-semicolons": true,
     "order/order": [
       "custom-properties",
       "dollar-variables",
@@ -103,16 +97,29 @@
         "height",
         "min-height",
         "max-height",
+        "aspect-ratio",
         "margin",
         "margin-top",
         "margin-right",
         "margin-bottom",
         "margin-left",
+        "margin-inline",
+        "margin-inline-start",
+        "margin-inline-end",
+        "margin-block",
+        "margin-block-start",
+        "margin-block-end",
         "padding",
         "padding-top",
         "padding-right",
         "padding-bottom",
         "padding-left",
+        "padding-inline",
+        "padding-inline-start",
+        "padding-inline-end",
+        "padding-block",
+        "padding-block-start",
+        "padding-block-end",
         "border",
         "border-spacing",
         "border-collapse",

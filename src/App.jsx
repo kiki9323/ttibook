@@ -1,23 +1,28 @@
 import './App.css';
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import { PokemonDetail } from '@/components/PokemonDetail';
-import { QueryClientProvider } from 'react-query';
-import { RandomGacha } from '@/components/RandomGacha';
-import React from 'react';
-import queryClient from '@/api/queryClient';
+import { CaptureProvider } from '@/context/IsCapturedContext';
+import { PokemonBook } from '@pages/PokemonBook';
+import { PokemonDetail } from '@pages/PokemonDetail';
+import { PokemonIndex } from '@pages/PokemonIndex';
+import { RandomGacha } from '@pages/RandomGacha';
+import { RandomPokemon } from '@pages/RandomPokemon';
+import { RootLayout } from '@layout/RootLayout';
 
 function App() {
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route path="/" element={<RandomGacha />} />
-          <Route path="/pokemon/:id" element={<PokemonDetail />} />
-        </Routes>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <CaptureProvider>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<PokemonIndex />} />
+          <Route path="/pokemon-detail/:id" element={<PokemonDetail />} />
+          <Route path="/random-gacha" element={<RandomGacha />} />
+          <Route path="/random-gacha/:id" element={<RandomPokemon />} />
+          <Route path="/mybook" element={<PokemonBook />} />
+        </Route>
+      </Routes>
+    </CaptureProvider>
   );
 }
 

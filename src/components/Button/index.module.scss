@@ -1,0 +1,44 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid var(--color-medium-black);
+  border-radius: 10px;
+  color: var(--color-medium-black);
+  vertical-align: middle;
+
+  &.is_hide {
+    display: none;
+  }
+
+  .cross_icon {
+    display: block;
+    position: relative;
+    width: 16px;
+    height: 16px;
+
+    &::after,
+    &::before {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-medium-black);
+      content: '';
+    }
+
+    &::after {
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    &::before {
+      transform: translateX(-50%) rotate(-45deg);
+    }
+  }
+}
+
+.ghost {
+  border: 0;
+}

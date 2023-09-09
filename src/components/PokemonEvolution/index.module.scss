@@ -1,0 +1,41 @@
+.evolution {
+  &_list {
+    display: grid;
+    overflow-x: scroll;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    font-size: 20px;
+  }
+
+  &_item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+
+    + .evolution_item {
+      &::before {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        content: '>';
+      }
+    }
+
+
+    img {
+      min-width: 120px;
+    }
+
+    span {
+      padding: 10px 0;
+    }
+  }
+  
+  &_loading {
+    display: block;
+    padding: 20px;
+  }
+}

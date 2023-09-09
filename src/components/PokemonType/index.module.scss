@@ -1,9 +1,14 @@
-.name {
+.type {
   display: inline-flex;
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  padding: 2px 10px;
+  align-items: center;
+  padding: 5px 10px;
   border-radius: 20px;
-  box-shadow: 1px 1.5px 1.5px 0 #adadad;
+  box-shadow: 1px 1.5px 1.5px 0 var(--color-box-shadow);
+  font-weight: 400;
+  font-size: 14px;
+
+  & + & {
+    margin-left: 8px;
+  }
 }
+

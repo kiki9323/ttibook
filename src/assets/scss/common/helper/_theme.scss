@@ -1,0 +1,39 @@
+@import './color';
+
+html[data-theme='light'] {
+  --color-black: #{$black};
+  --color-medium-black: #{$medium-black};
+  --color-light-black: #{$light-black};
+
+  --color-gray: #{$gray};
+
+  --color-white: #{$white};
+  --color-medium-white: #{$medium-white};
+  --color-light-white: #{$light-white};
+
+  --color-red: #{$red};
+
+  --color-box-shadow: #{$box-shadow-lm};
+  --color-card: #{$card-lm};
+
+  --color-header: #{$white};
+}
+
+html[data-theme='dark'] {
+  --color-black: #{$white};
+  --color-medium-black: #{$medium-white};
+  --color-light-black: #{$light-white};
+
+  --color-gray: #{$gray};
+
+  --color-white: #{$black};
+  --color-medium-white: #{$medium-black};
+  --color-light-white: #{$light-black};
+
+  --color-red: #{$red};
+
+  --color-box-shadow: #{$box-shadow-dm};
+  --color-card: #{$card-dm};
+
+  --color-header: #{$medium-black};
+}

@@ -1,0 +1,215 @@
+.gacha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+
+  &_btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 8px 12px 20px 0 var(--color-box-shadow);
+  }
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  perspective: 1000px; /* 원근법 값 설정 */
+
+  &_front,
+  &_back {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 8px 12px 20px 0 var(--color-box-shadow);
+    transition: transform .8s ease-in-out; /* 애니메이션 설정 */
+    backface-visibility: hidden; /* 뒷면 표시 안 함 */
+  }
+
+  &_front {
+    background-color: $white; /* 앞면 스타일 설정 */
+
+    .effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      background-image: -webkit-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .2) 17%, rgba(255, 255, 255, .8) 25%, rgba(255, 255, 255, .5) 27%);
+      background-position: -120px -120px, 0 0;
+      background-size: 250% 250%, 100% 100%;
+      background-repeat: no-repeat;
+      opacity: .15;
+      pointer-events: none;
+      transition: background-position 0s cubic-bezier(.91, .07, .27, 1.63);
+      animation: shimmer 3s infinite;
+    }
+  }
+
+  &_back {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 10px;
+    background-color: $light-white; /* 뒷면 스타일 설정 */
+    transform: rotateY(-180deg); /* 회전 */
+  }
+
+  &:hover::before {
+    display: none;
+  }
+
+  &:hover &_front {
+    transform: rotateY(30deg); /* 회전 */
+  }
+
+  &:hover &_back {
+    transform: rotateY(-150deg); /* 회전 */
+  }
+
+  &.is_active &_front {
+    transform: rotateY(180deg); /* 회전 */
+  }
+
+  &.is_active &_back {
+    transform: rotateY(0); /* 회전 */
+  }
+
+  &_name {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+  }
+
+  &_img {
+    width: 100%;
+    padding: 40px 30px 20px;
+
+    .name {
+      position: absolute;
+      top: 10px;
+      left: 8px;
+    }
+  }
+
+  &_id {
+    padding-inline-end: 5px;
+  }
+
+  &_summary {
+    overflow-y: scroll;
+    color: $medium-black;
+    text-align: initial;
+
+    &_item {
+      margin-top: 10px;
+      font-size: 14px;
+
+      .attr_height {
+        display: inline-block;
+      }
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      dt {
+        display: block;
+        padding-inline-end: 5px;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      dd {
+        display: inline-block;
+        margin-top: 5px;
+        padding-inline-end: 5px;
+      }
+
+      ul {
+        overflow-y: scroll;
+        max-height: 30px;
+      }
+
+      li {
+        display: inline-flex;
+        padding-inline-end: 5px;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 141.42%;
+  height: 141.42%;
+  color: rgba(0, 0, 0, .25);
+  font-weight: bold;
+  font-size: 2em;
+  word-break: break-all;
+  opacity: .5;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  padding: 0 20px;
+  font-size: 18px;
+  transform: translate(-50%, 50%);
+}
+
+.more {
+  margin-top: auto;
+
+  &_btn {
+    display: inline-block;
+    min-width: 130px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    background-color: rgb(162, 162, 162);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: .3;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  80% {
+    background-position: 0 0, 0 0;
+    opacity: 1;
+  }
+
+  100% {
+    z-index: 2;
+    opacity: .7;
+    transition-duration: 2s;
+  }
+}
