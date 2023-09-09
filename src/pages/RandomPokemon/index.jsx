@@ -1,42 +1,28 @@
 import { formatNumber, langFilterAndAccessor } from '@/utils/utils';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { CaptureContext } from '@/context/IsCapturedContext';
 import { ErrorComponent } from '@components/ErrorComponent';
-import { Layout } from '../../layout/Layout';
+import { Layout } from '@layout/Layout';
 import { LoadingComponent } from '@components/LoadingComponent';
 import { POKEMON_LIKED_KEY } from '@/utils/constants';
-import { SpritesList } from '../PokemonDetail/SpritesList';
+import { SpritesList } from '@components/SpritesList';
 import style from './index.module.scss';
+import useLocalStorage from '@/hooks/useLocalStroage';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
-
-const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
-
-const getInitialMyPokemon = () => {
-  try {
-    if (typeof window.localStorage === 'undefined') {
-      throw new Error('Local Storage is not supported or accessible');
-    }
-
-    const savedData = localStorage.getItem(POKEMON_LIKED_KEY);
-    if (savedData) {
-      return JSON.parse(savedData);
-    }
-  } catch (e) {
-    console.log('Error parsing local storage data', e);
-  }
-  return [];
-};
 
 export const RandomPokemon = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const currentId = Number(id);
 
-  const [myPokemon, setMyPokemon] = useState(getInitialMyPokemon());
+  const [state, setState] = useLocalStorage(POKEMON_LIKED_KEY, []);
+  const [myPokemon, setMyPokemon] = useState(state);
+
+  const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
   const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
-  const { setIsCaptured } = useContext(CaptureContext);
+  const { isCapture, setIsCaptured } = useContext(CaptureContext);
 
   const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
 
@@ -61,17 +47,15 @@ export const RandomPokemon = () => {
       if (myPokemon.length > MAX_POKEMON) {
         alert('10마리 이상 연속해서 포획했습니다. 욕심도 많군요.. 포켓몬 생태계를 파괴하실 작정입니까?');
       }
-      setMyPokemon([...myPokemon, newMyPokemon]);
+      const newState = [...myPokemon, newMyPokemon];
+      setMyPokemon(newState);
+      setState(newState);
       alert(`${pokemonData.name}을(를) 잡았다!`);
       setIsCaptured(true);
     } else {
       return alert('이미 잡은 포켓몬 입니다.');
     }
   };
-
-  useEffect(() => {
-    localStorage.setItem(POKEMON_LIKED_KEY, JSON.stringify(myPokemon));
-  }, [myPokemon]);
 
   if (isLoading) return <LoadingComponent loadingMessage={'포켓몬 잡으러 가는 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
@@ -82,39 +66,26 @@ export const RandomPokemon = () => {
   const koName = langFilterAndAccessor(names, 'ko', 'name');
   const koFlavorText = langFilterAndAccessor(flavor_text_entries, 'ko', 'flavor_text');
 
-  const hoverShaking = hoverStatus === HoverStatus.SHAKING ? style.is_shaking : '';
-  const hoverFading = hoverStatus === HoverStatus.FADING ? style.is_fading : '';
-
   return (
     <Layout>
       <Layout.Title>포켓몬 잡기</Layout.Title>
       <Layout.Contents>
-        <div className={style.detail}>
-          <div className={style.detail_inner}>
-            <strong className={style.detail_name}>
+        <div className={style.capture}>
+          <div className={style.capture_inner}>
+            <strong className={style.capture_name}>
               {koName}&nbsp;
-              <span className={style.detail_id}>(#{formatNumber(id, 4)})</span>
+              <span className={style.capture_id}>(#{formatNumber(id, 4)})</span>
             </strong>
-            <div className={style.layout}>
-              <p className={style.info_desc}>{koFlavorText}</p>
-              <SpritesList sprites={sprites} hoverShaking={hoverShaking} hoverFading={hoverFading} />
+            <div className={style.capture_desc}>
+              <p className={style.info}>{koFlavorText}</p>
+              <SpritesList sprites={sprites} />
             </div>
           </div>
           <div className={style.interface}>
-            <button
-              onClick={handleGoHome}
-              onMouseEnter={() => setHoverStatus(HoverStatus.FADING)}
-              onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
-            >
-              풀어준다.
-            </button>
-            <button
-              onClick={handleCapture}
-              onMouseEnter={() => setHoverStatus(HoverStatus.SHAKING)}
-              onMouseLeave={() => setHoverStatus(HoverStatus.NONE)}
-            >
-              맘에 든다! 잡아버리자!
-            </button>
+            <div className={style.interface_inner}>
+              <button onClick={handleGoHome}>{isCapture ? '잡았다.' : `풀어준다.`}</button>
+              <button onClick={handleCapture}>맘에 든다! 잡아버리자!</button>
+            </div>
           </div>
         </div>
       </Layout.Contents>

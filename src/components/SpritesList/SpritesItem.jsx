@@ -1,10 +1,10 @@
 import style from './index.module.scss';
 
-export const SpritesImage = ({ spriteName, imgSrc, hoverStatus }) => {
+export const SpritesItem = ({ spriteName, imgSrc }) => {
   const frontRegex = /^(front_)/;
 
   return (
-    <div className={`${style.sprite_item} ${hoverStatus}`}>
+    <div className={`${style.sprite_item}`}>
       <img src={`${imgSrc}`} alt={spriteName} />
       <p>{frontRegex.test(spriteName) ? '앞' : '뒤'}</p>
     </div>

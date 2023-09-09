@@ -104,41 +104,6 @@
     }
   }
 
-  .sprite {
-    &_list {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      justify-content: space-evenly;
-    }
-
-    &_item {
-      width: 200px;
-
-      img {
-        width: 75%;
-      }
-
-      p {
-        margin-top: 25px;
-        font-size: 22px;
-      }
-
-      &.is_shaking {
-        img {
-          animation: shaking .1s linear infinite;
-        }
-      }
-
-      &.is_fading {
-        img {
-          opacity: 0;
-          transition: opacity 2s ease-in-out;
-        }
-      }
-    }
-  }
-
   .interface {
     display: flex;
     flex-direction: column;
@@ -182,27 +147,5 @@
     display: block;
     padding: 10px 0;
     font-size: 24px;
-  }
-}
-
-@keyframes shaking {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  25% {
-    transform: rotate(5deg);
-  }
-
-  50% {
-    transform: rotate(0deg);
-  }
-
-  75% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
   }
 }

@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { DropBox } from '@components/DropBox';
 import { ErrorComponent } from '@components/ErrorComponent';
-import { Layout } from '../../layout/Layout/index';
+import { Layout } from '@layout/Layout';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { PokemonAbilities } from '../../pages/PokemonDetail/PokemonAbilities';
-import { PokemonEvolution } from '../../components/PokemonEvolution';
-import { SpritesList } from '../../pages/PokemonDetail/SpritesList';
+import { PokemonAbilities } from '@pages/PokemonDetail/PokemonAbilities';
+import { PokemonEvolution } from '@components/PokemonEvolution';
+import { SpritesList } from '@components/SpritesList';
 import { StatsChart } from '../PokemonIndex/StatsChart';
 import { fetchPokemonTotalCount } from '@/api/pokemonApi';
 import style from './index.module.scss';
