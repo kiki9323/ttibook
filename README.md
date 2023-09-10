@@ -1,6 +1,11 @@
 # 띠북띠북씰
 Poke API를 사용하여 포켓몬 도감, 랜덤 뽑기, CRUD 구현
 
+```js
+npm install
+npm run dev
+```
+
 ## 기술
 - React + Vite  
 - axios + react-query
