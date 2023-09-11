@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const useClickMovingScroll = (slider, handlers) => {
+export const useClickMovingScroll = slider => {
   useEffect(() => {
     let isDown = false;
     let startX;
@@ -49,5 +49,5 @@ export const useClickMovingScroll = (slider, handlers) => {
       targetSlider.removeEventListener('mouseup', handleMouseUp);
       targetSlider.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [slider, handlers]);
+  }, [slider]);
 };

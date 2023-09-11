@@ -4,18 +4,10 @@
     align-items: flex-end;
     justify-content: center;
     justify-content: space-evenly;
-    background-color: pink;
   }
 
   &_item {
-    width: 200px;
-
-    img {
-      width: 75%;
-    }
-
     p {
-      margin-top: 25px;
       font-size: 22px;
     }
 
@@ -32,26 +24,17 @@
       }
     }
   }
-}
 
-@keyframes shaking {
-  0% {
-    transform: rotate(0deg);
-  }
+  &_img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
 
-  25% {
-    transform: rotate(5deg);
-  }
-
-  50% {
-    transform: rotate(0deg);
-  }
-
-  75% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
+    img {
+      width: 70%;
+      height: auto;
+    }
   }
 }

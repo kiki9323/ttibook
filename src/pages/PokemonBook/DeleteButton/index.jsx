@@ -8,7 +8,7 @@ export const DeleteButton = ({ targetId, onRemove }) => {
   };
 
   return (
-    <button type="button" onClick={handleDelete} className={`${style.delete_icon} ${style.delete_poke}`}>
+    <button type="button" aria-label="close" onClick={handleDelete} className={`${style.delete_icon} ${style.delete_poke}`}>
       <span></span>
     </button>
   );

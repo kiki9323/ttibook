@@ -6,11 +6,31 @@ import { CaptureContext } from '@/context/IsCapturedContext';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { Layout } from '@layout/Layout';
 import { LoadingComponent } from '@components/LoadingComponent';
+import { Modal } from '../../components/Modal';
+import ModalPortal from '../../hooks/usePortal';
 import { POKEMON_LIKED_KEY } from '@/utils/constants';
 import { SpritesList } from '@components/SpritesList';
 import style from './index.module.scss';
 import useLocalStorage from '@/hooks/useLocalStroage';
 import usePokemonAndSpecies from '@/hooks/useGetPokemonAndSpecies';
+
+const ModalContent = ({ activeModal, pokemonName }) => {
+  switch (activeModal) {
+    case 'captured':
+      return <p>{`${pokemonName} 을(를) 잡았다!`}</p>;
+    case 'already':
+      return <p>이미 잡은 포켓몬 입니다.</p>;
+    case '10Pokemon':
+      return (
+        <p>
+          10마리 이상 연속해서 포획했습니다.
+          <br /> 욕심도 많군요.. 포켓몬 생태계를 파괴하실 작정입니까?
+        </p>
+      );
+    default:
+      return null;
+  }
+};
 
 export const RandomPokemon = () => {
   const navigate = useNavigate();
@@ -20,16 +40,19 @@ export const RandomPokemon = () => {
   const [state, setState] = useLocalStorage(POKEMON_LIKED_KEY, []);
   const [myPokemon, setMyPokemon] = useState(state);
 
-  const HoverStatus = { NONE: 0, SHAKING: 1, FADING: 2 };
-  const [hoverStatus, setHoverStatus] = useState(HoverStatus.NONE);
   const { isCapture, setIsCaptured } = useContext(CaptureContext);
+  const [activeModal, closeModal] = useState(null);
 
   const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
 
   const handleGoHome = () => navigate('/random-gacha');
 
-  const handleCapture = () => {
-    const MAX_POKEMON = 10;
+  const delay = ms => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
+  const handleCapture = async () => {
+    const MAX_POKEMON = 3;
     const newMyPokemon = {
       name: pokemonData.name,
       id,
@@ -44,16 +67,18 @@ export const RandomPokemon = () => {
 
     // 중복
     if (!myPokemon.find(e => e && e.id === newMyPokemon.id)) {
-      if (myPokemon.length > MAX_POKEMON) {
-        alert('10마리 이상 연속해서 포획했습니다. 욕심도 많군요.. 포켓몬 생태계를 파괴하실 작정입니까?');
-      }
       const newState = [...myPokemon, newMyPokemon];
       setMyPokemon(newState);
       setState(newState);
-      alert(`${pokemonData.name}을(를) 잡았다!`);
+      if (myPokemon.length > MAX_POKEMON) {
+        closeModal('10Pokemon');
+        await delay(2000);
+      }
+      closeModal('captured', pokemonData.name);
       setIsCaptured(true);
+      await delay(2000);
     } else {
-      return alert('이미 잡은 포켓몬 입니다.');
+      closeModal('already');
     }
   };
 
@@ -92,6 +117,11 @@ export const RandomPokemon = () => {
             </div>
           </div>
         </div>
+        <ModalPortal>
+          <Modal title="알림!" isOpen={activeModal !== null} onClose={() => closeModal(null)}>
+            <ModalContent activeModal={activeModal} pokemonName={pokemonData.name} />
+          </Modal>
+        </ModalPortal>
       </Layout.Contents>
     </Layout>
   );
