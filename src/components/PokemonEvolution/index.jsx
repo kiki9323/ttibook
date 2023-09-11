@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { API_BASE_URL } from '../../api/axiosConfig';
+import { API_BASE_URL } from '@/api/axiosConfig';
 import { ErrorComponent } from '@components/ErrorComponent';
 import { LoadingComponent } from '@components/LoadingComponent';
-import { clickMovingScroll } from '@/utils/utils';
 import style from './index.module.scss';
+import { useClickMovingScroll } from '@/hooks/useClickMovingScroll';
 import useGetEvolution from '@/hooks/useGetEvolution';
 import useGetSpecies from '@/hooks/useGetSpecies';
 import useLoadEvolutionImages from '@/hooks/useLoadEvolutionImages';
@@ -24,11 +24,9 @@ export const PokemonEvolution = ({ id }) => {
   const [evolutionResult, setEvolutionResult] = useState([]);
   const { speciesData, isLoading: speciesIsLoading, isError: speciesIsError, error: speciesError } = useGetSpecies(id);
   const { evolutionData } = useGetEvolution(evolutionUrl);
-  const sliderRef = useRef();
 
-  useEffect(() => {
-    clickMovingScroll(sliderRef.current);
-  });
+  const sliderRef = useRef();
+  useClickMovingScroll(sliderRef.current);
 
   useEffect(() => {
     const newUrl = speciesData?.evolution_chain.url.split(`${API_BASE_URL}`)[1];

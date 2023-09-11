@@ -2,21 +2,17 @@ import { useEffect } from 'react';
 
 const useIntersectionObserver = (loadTriggerRef, fetchNextPage, hasNextPage) => {
   useEffect(() => {
-    let observer;
+    const observer = new IntersectionObserver(([{ isIntersecting }]) => {
+      if (isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
 
-    if (loadTriggerRef.current && hasNextPage) {
-      observer = new IntersectionObserver(
-        entries => {
-          entries[0].isIntersecting && fetchNextPage();
-        },
-        {
-          threshold: 0.3,
-        },
-      );
+    if (loadTriggerRef.current) {
       observer.observe(loadTriggerRef.current);
     }
 
-    return () => observer?.disconnect();
+    return () => observer.disconnect();
   }, [loadTriggerRef, fetchNextPage, hasNextPage]);
 };
 

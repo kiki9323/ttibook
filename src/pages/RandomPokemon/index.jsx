@@ -77,13 +77,17 @@ export const RandomPokemon = () => {
               <span className={style.capture_id}>(#{formatNumber(id, 4)})</span>
             </strong>
             <div className={style.capture_desc}>
+              <strong className={style.attr}>
+                <span>{is_legendary && '레전드 포켓몬'}</span>
+                <span>{is_mythical && '신화 포켓몬'}</span>
+              </strong>
               <p className={style.info}>{koFlavorText}</p>
               <SpritesList sprites={sprites} />
             </div>
           </div>
           <div className={style.interface}>
             <div className={style.interface_inner}>
-              <button onClick={handleGoHome}>{isCapture ? '잡았다.' : `풀어준다.`}</button>
+              <button onClick={handleGoHome}>풀어준다.</button>
               <button onClick={handleCapture}>맘에 든다! 잡아버리자!</button>
             </div>
           </div>

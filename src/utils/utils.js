@@ -33,42 +33,6 @@ export const groupTextsByLanguage = flavorTextEntries => {
   return languageMap;
 };
 
-export const clickMovingScroll = slider => {
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-  let mouseCursor = {
-    grab: 'grab',
-    grabbing: 'grabbing',
-  };
-  const targetSlider = slider;
-
-  targetSlider?.addEventListener('mousedown', event => {
-    event.currentTarget.style.cursor = mouseCursor.grab;
-    isDown = true;
-    startX = event.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-  });
-
-  targetSlider?.addEventListener('mouseleave', () => {
-    isDown = false;
-  });
-
-  targetSlider?.addEventListener('mouseup', event => {
-    event.currentTarget.style.cursor = mouseCursor.grab;
-    isDown = false;
-  });
-
-  targetSlider?.addEventListener('mousemove', event => {
-    if (!isDown) return;
-    event.preventDefault();
-    event.currentTarget.style.cursor = mouseCursor.grabbing;
-    const x = event.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2; // 페이지 이동 속도 조절
-    slider.scrollLeft = scrollLeft - walk;
-  });
-};
-
 export const formatNumber = (num, digit) => {
   return String(num).padStart(digit, '0');
 };
