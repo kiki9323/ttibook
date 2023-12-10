@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { PokemonType } from '@components/PokemonType';
+import { pokemonTypeTranslationAndColor } from '@/utils/constants';
 import style from './index.module.scss';
 
 const Front = ({ forwardedRef, id, name, imageSrc, types }) => {
@@ -14,11 +15,12 @@ const Front = ({ forwardedRef, id, name, imageSrc, types }) => {
     }
   };
 
+  console.log(types);
   return (
     <div className={`${style.card_front}`} ref={setCardRef}>
       <span id="shinyEffect" className={style.effect}></span>
       <div className={style.card_img}>
-        <PokemonType typeName={types[0].type.name} styles={style.card_name}>
+        <PokemonType typeName={types && types[0].type.name} styles={style.card_name}>
           <span className={style.card_id}>#{id}</span>
           {name}
         </PokemonType>
@@ -37,7 +39,7 @@ const Back = ({ id, abilities, types, height, weight }) => {
           {types?.map(({ type }, i) => (
             <dd key={i}>
               <PokemonType key={i} typeName={type.name}>
-                {type.name}
+                {type.name.ko}
               </PokemonType>
             </dd>
           ))}

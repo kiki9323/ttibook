@@ -43,7 +43,7 @@ export const RandomPokemon = () => {
   const { isCapture, setIsCaptured } = useContext(CaptureContext);
   const [activeModal, closeModal] = useState(null);
 
-  const { pokemonData, speciesData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
+  const { pokemonDetailData, isLoading, isError, error } = usePokemonAndSpecies(currentId);
 
   const handleGoHome = () => navigate('/random-gacha');
 
@@ -54,11 +54,11 @@ export const RandomPokemon = () => {
   const handleCapture = async () => {
     const MAX_POKEMON = 3;
     const newMyPokemon = {
-      name: pokemonData.name,
+      name: pokemonDetailData.name,
       id,
-      url: pokemonData.sprites.other['official-artwork'].front_default,
-      color: pokemonData.color,
-      types: pokemonData.types,
+      url: pokemonDetailData.sprites.other['official-artwork'].front_default,
+      color: pokemonDetailData.color,
+      types: pokemonDetailData.types,
       liked: false,
     };
 
@@ -74,7 +74,7 @@ export const RandomPokemon = () => {
         closeModal('10Pokemon');
         await delay(2000);
       }
-      closeModal('captured', pokemonData.name);
+      closeModal('captured', pokemonDetailData.name);
       setIsCaptured(true);
       await delay(2000);
     } else {
@@ -85,12 +85,6 @@ export const RandomPokemon = () => {
   if (isLoading) return <LoadingComponent loadingMessage={'포켓몬 잡으러 가는 중'} />;
   if (isError) return <ErrorComponent errorMessage={error.message} />;
 
-  const { sprites } = pokemonData;
-  const { flavor_text_entries, capture_rate, names, is_legendary, is_mythical } = speciesData;
-
-  const koName = langFilterAndAccessor(names, 'ko', 'name');
-  const koFlavorText = langFilterAndAccessor(flavor_text_entries, 'ko', 'flavor_text');
-
   return (
     <Layout>
       <Layout.Title>포켓몬 잡기</Layout.Title>
@@ -98,16 +92,16 @@ export const RandomPokemon = () => {
         <div className={style.capture}>
           <div className={style.capture_inner}>
             <strong className={style.capture_name}>
-              {koName}&nbsp;
+              {pokemonDetailData.koName}&nbsp;
               <span className={style.capture_id}>(#{formatNumber(id, 4)})</span>
             </strong>
             <div className={style.capture_desc}>
               <strong className={style.attr}>
-                <span>{is_legendary && '레전드 포켓몬'}</span>
-                <span>{is_mythical && '신화 포켓몬'}</span>
+                <span>{pokemonDetailData.is_legendary && '레전드 포켓몬'}</span>
+                <span>{pokemonDetailData.is_mythical && '신화 포켓몬'}</span>
               </strong>
-              <p className={style.info}>{koFlavorText}</p>
-              <SpritesList sprites={sprites} />
+              <p className={style.info}>{pokemonDetailData.koFlavorText}</p>
+              <SpritesList sprites={pokemonDetailData.sprites} />
             </div>
           </div>
           <div className={style.interface}>
@@ -119,7 +113,7 @@ export const RandomPokemon = () => {
         </div>
         <ModalPortal>
           <Modal title="알림!" isOpen={activeModal !== null} onClose={() => closeModal(null)}>
-            <ModalContent activeModal={activeModal} pokemonName={pokemonData.name} />
+            <ModalContent activeModal={activeModal} pokemonName={pokemonDetailData.name} />
           </Modal>
         </ModalPortal>
       </Layout.Contents>

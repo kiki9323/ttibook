@@ -47,7 +47,7 @@ export const selectRandomly = arr => {
 
 export const langFilter = (arr, lang) => {
   const filteredArr = filterByLanguage(arr, lang);
-  if (!filteredArr.length) return null;
+  if (!filteredArr?.length) return null;
   return selectRandomly(filteredArr);
 };
 
