@@ -1,5 +1,5 @@
 # 띠북띠북씰
-Poke API를 사용하여 포켓몬 도감, 랜덤 뽑기, CRUD 구현
+Poke API를 사용하여 포켓몬 도감, 랜덤 뽑기, CRUD 구현  
 https://ttiboo-ttibook.netlify.app/
 
 ## 프로젝트 폴더 구조 
@@ -53,7 +53,8 @@ https://ttiboo-ttibook.netlify.app/
 * 인스턴스 생성 및 인터셉터를 사용
 
 3. Promise.all
-* 1. promise.get 처럼 data 값이 아닌, promise 배열들을 반환하는 걸 알게 됨.
-상황: 하나의 UI에 필요한 데이터가 두 개의 엔드포인트에 존재.
-해결: promise.all 사용하여 2개의 엔드포인트의 데이터를 불러오고 가공하여 사용 (가공js들은 utils, hooks로 뺌.)
+* promise.get 처럼 data 값이 아닌, promise 배열들을 반환하는 걸 알게 됨.
+
+    상황: 하나의 UI에 필요한 데이터가 두 개의 엔드포인트에 존재.  
+    해결: promise.all 사용하여 2개의 엔드포인트의 데이터를 불러오고 가공하여 사용 (가공js들은 utils, hooks로 뺌.)
 
